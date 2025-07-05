@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>手机端产品展示测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 100%;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .product-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #2563EB;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .product-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .close {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        /* 手机端画廊样式 */
+        .mobile-gallery-container {
+            width: 100%;
+            padding: 20px 0;
+        }
+        
+        .mobile-gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px 0;
+        }
+        
+        .mobile-gallery-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .mobile-gallery-item:active {
+            transform: scale(0.95);
+            border-color: #2563EB;
+        }
+        
+        .mobile-gallery-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #e9ecef;
+            border: 1px solid #dee2e6;
+        }
+        
+        .mobile-gallery-item h4 {
+            font-size: 14px;
+            color: #374151;
+            font-weight: 600;
+            line-height: 1.3;
+            margin: 0;
+        }
+        
+        .error-msg {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        .info-text {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        /* 全屏查看器 */
+        .fullscreen-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .fullscreen-viewer img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        
+        .close-fullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 10000;
+        }
+        
+        .debug-info {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>📱 手机端产品展示测试</h1>
+        
+        <div class="debug-info">
+            <strong>设备信息：</strong><br>
+            屏幕宽度: <span id="screenWidth"></span><br>
+            用户代理: <span id="userAgent"></span><br>
+            设备类型: <span id="deviceType"></span>
+        </div>
+        
+        <h2>产品分类</h2>
+        <button class="product-btn" onclick="openProductModal('化妆包')">化妆包</button>
+        <button class="product-btn" onclick="openProductModal('旅行包')">旅行包</button>
+        <button class="product-btn" onclick="openProductModal('背包')">背包</button>
+        <button class="product-btn" onclick="openProductModal('多功能收纳包')">多功能收纳包</button>
+        
+        <div class="debug-info">
+            <strong>测试说明：</strong><br>
+            1. 点击上方按钮打开产品展示<br>
+            2. 检查图片是否正常显示<br>
+            3. 检查网格布局是否正确<br>
+            4. 点击图片测试全屏查看<br>
+            5. 查看控制台日志获取详细信息
+        </div>
+    </div>
+
+    <!-- 产品详情模态框 -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">产品详情</h2>
+                <span class="close" onclick="closeProductModal()">&times;</span>
+            </div>
+            <div id="modalBody">
+                <!-- 产品图片将在这里动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 全屏图片查看器 -->
+    <div id="fullscreenViewer" class="fullscreen-viewer" onclick="closeFullscreen()">
+        <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
+        <img id="fullscreenImage" src="" alt="">
+    </div>
+
+    <script>
+        // 显示设备信息
+        document.getElementById('screenWidth').textContent = window.innerWidth + 'px';
+        document.getElementById('userAgent').textContent = navigator.userAgent.substring(0, 50) + '...';
+        document.getElementById('deviceType').textContent = window.innerWidth <= 768 ? '手机设备' : '桌面设备';
+
+        // 产品数据
+        const productData = {
+            '化妆包': [
+                { src: 'product_pics/化妆包/化妆包1.jpg', title: '化妆包 - 经典款' },
+                { src: 'product_pics/化妆包/化妆包2.jpg', title: '化妆包 - 时尚款' },
+                { src: 'product_pics/化妆包/化妆包3.png', title: '化妆包 - 优雅款' },
+                { src: 'product_pics/化妆包/化妆包4.jpg', title: '化妆包 - 简约款' }
+            ],
+            '旅行包': [
+                { src: 'product_pics/旅行包/旅行包1.jpg', title: '旅行包 - 款式一' },
+                { src: 'product_pics/旅行包/旅行包2.jpg', title: '旅行包 - 款式二' },
+                { src: 'product_pics/旅行包/旅行包3.jpg', title: '旅行包 - 款式三' },
+                { src: 'product_pics/旅行包/旅行包4.jpg', title: '旅行包 - 款式四' }
+            ],
+            '背包': [
+                { src: 'product_pics/背包/背包1.jpg', title: '背包 - 款式一' },
+                { src: 'product_pics/背包/背包2.jpg', title: '背包 - 款式二' },
+                { src: 'product_pics/背包/背包3.jpg', title: '背包 - 款式三' },
+                { src: 'product_pics/背包/背包4.jpg', title: '背包 - 款式四' }
+            ],
+            '多功能收纳包': [
+                { src: 'product_pics/多功能收纳包/多功能收纳包1.jpg', title: '多功能收纳包 - 款式一' },
+                { src: 'product_pics/多功能收纳包/多功能收纳包2.jpg', title: '多功能收纳包 - 款式二' },
+                { src: 'product_pics/多功能收纳包/多功能收纳包3.jpg', title: '多功能收纳包 - 款式三' },
+                { src: 'product_pics/多功能收纳包/多功能收纳包4.jpg', title: '多功能收纳包 - 款式四' }
+            ]
+        };
+
+        function openProductModal(productType) {
+            console.log('=== 打开产品模态框 ===');
+            console.log('产品类型:', productType);
+            
+            const modal = document.getElementById('productModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = productType + ' - 详细展示';
+            
+            const images = productData[productType] || [];
+            console.log('图片数量:', images.length);
+            console.log('图片列表:', images);
+            
+            if (images.length === 0) {
+                modalBody.innerHTML = '<p style="text-align: center; color: red;">暂无产品图片</p>';
+                modal.style.display = 'block';
+                return;
+            }
+            
+            // 生成手机端模态框内容
+            const htmlContent = `
+                <div class="mobile-gallery-container">
+                    <p class="info-text">
+                        点击图片全屏查看 · 共${images.length}张图片
+                    </p>
+                    <div class="mobile-gallery-grid">
+                        ${images.map((img, index) => `
+                            <div class="mobile-gallery-item" onclick="openFullscreen('${img.src}')">
+                                <img src="${img.src}" alt="${img.title}" 
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="error-msg" style="display:none;">图片加载失败</div>
+                                <h4>${img.title}</h4>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            modalBody.innerHTML = htmlContent;
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            console.log('模态框已打开');
+            
+            // 验证DOM生成
+            setTimeout(() => {
+                const container = document.querySelector('.mobile-gallery-container');
+                const grid = document.querySelector('.mobile-gallery-grid');
+                const items = document.querySelectorAll('.mobile-gallery-item');
+                const imgs = document.querySelectorAll('.mobile-gallery-item img');
+                
+                console.log('DOM验证结果:', {
+                    container: container ? '存在' : '不存在',
+                    grid: grid ? '存在' : '不存在',
+                    items: items.length + '个图片项',
+                    images: imgs.length + '个图片元素'
+                });
+                
+                // 检查图片加载状态
+                imgs.forEach((img, index) => {
+                    img.onload = function() {
+                        console.log(`图片${index + 1}加载成功:`, this.src);
+                    };
+                    img.onerror = function() {
+                        console.error(`图片${index + 1}加载失败:`, this.src);
+                    };
+                });
+            }, 100);
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            console.log('模态框已关闭');
+        }
+
+        function openFullscreen(imageSrc) {
+            console.log('打开全屏查看:', imageSrc);
+            const viewer = document.getElementById('fullscreenViewer');
+            const image = document.getElementById('fullscreenImage');
+            image.src = imageSrc;
+            viewer.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFullscreen() {
+            const viewer = document.getElementById('fullscreenViewer');
+            viewer.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            console.log('关闭全屏查看');
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                closeProductModal();
+            }
+        }
+
+        console.log('手机端产品展示测试页面已加载');
+    </script>
+</body>
+</html> 

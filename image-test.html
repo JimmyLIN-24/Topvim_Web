@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-item img {
+            max-width: 200px;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            display: block;
+            margin: 10px 0;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .grid-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .grid-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔍 图片路径测试</h1>
+        
+        <div class="test-item">
+            <h2>测试1：化妆包图片</h2>
+            <p>路径：product_pics/化妆包/化妆包1.jpg</p>
+            <img src="product_pics/化妆包/化妆包1.jpg" alt="化妆包1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="error" style="display:none;">❌ 图片加载失败</div>
+        </div>
+        
+        <div class="test-item">
+            <h2>测试2：旅行包图片</h2>
+            <p>路径：product_pics/旅行包/旅行包1.jpg</p>
+            <img src="product_pics/旅行包/旅行包1.jpg" alt="旅行包1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="error" style="display:none;">❌ 图片加载失败</div>
+        </div>
+        
+        <div class="test-item">
+            <h2>测试3：背包图片</h2>
+            <p>路径：product_pics/背包/背包1.jpg</p>
+            <img src="product_pics/背包/背包1.jpg" alt="背包1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="error" style="display:none;">❌ 图片加载失败</div>
+        </div>
+        
+        <h2>模拟手机端产品展示（化妆包）</h2>
+        <div class="grid">
+            <div class="grid-item">
+                <img src="product_pics/化妆包/化妆包1.jpg" alt="化妆包 - 经典款">
+                <h4>化妆包 - 经典款</h4>
+            </div>
+            <div class="grid-item">
+                <img src="product_pics/化妆包/化妆包2.jpg" alt="化妆包 - 时尚款">
+                <h4>化妆包 - 时尚款</h4>
+            </div>
+            <div class="grid-item">
+                <img src="product_pics/化妆包/化妆包3.png" alt="化妆包 - 优雅款">
+                <h4>化妆包 - 优雅款</h4>
+            </div>
+            <div class="grid-item">
+                <img src="product_pics/化妆包/化妆包4.jpg" alt="化妆包 - 简约款">
+                <h4>化妆包 - 简约款</h4>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 15px; background: #e3f2fd; border-radius: 5px;">
+            <h3>📝 测试说明</h3>
+            <p>如果上面的图片能正常显示，说明图片路径没有问题。</p>
+            <p>如果看到红色的"图片加载失败"，说明路径有问题。</p>
+            <p><strong>测试地址：</strong> http://192.168.1.23:8080/image-test.html</p>
+        </div>
+    </div>
+    
+    <script>
+        console.log('图片测试页面已加载');
+        
+        // 检查所有图片的加载状态
+        window.addEventListener('load', function() {
+            const images = document.querySelectorAll('img');
+            let loadedCount = 0;
+            let failedCount = 0;
+            
+            images.forEach(img => {
+                if (img.complete && img.naturalWidth > 0) {
+                    loadedCount++;
+                    console.log('图片加载成功:', img.src);
+                } else {
+                    failedCount++;
+                    console.log('图片加载失败:', img.src);
+                }
+            });
+            
+            console.log(`图片加载统计: 成功 ${loadedCount} 个，失败 ${failedCount} 个`);
+        });
+    </script>
+</body>
+</html> 
