@@ -61,8 +61,8 @@ topvim-web/
 
 1. 克隆项目到本地：
 ```bash
-git clone https://github.com/yourusername/topvim-web.git
-cd topvim-web
+git clone https://github.com/JimmyLIN-24/Topvim_Web.git
+cd Topvim_Web
 ```
 
 2. 启动本地服务器：
@@ -83,7 +83,7 @@ http://localhost:8000/index-enhanced.html
 
 1. 在GitHub仓库的Settings中开启Pages功能
 2. 选择source为`main`分支
-3. 网站将自动部署到：`https://yourusername.github.io/topvim-web/`
+3. 网站将自动部署到：`https://JimmyLIN-24.github.io/Topvim_Web/`
 
 ## 📸 功能展示
 
@@ -155,4 +155,4 @@ http://localhost:8000/index-enhanced.html
 
 ---
 
-⭐ 如果这个项目对您有帮助，请给个Star支持！ 
+⭐ 如果这个项目对您有帮助，请给个Star支持！
