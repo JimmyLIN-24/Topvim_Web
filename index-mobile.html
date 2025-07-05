@@ -1464,6 +1464,16 @@
             }
 
             /* 手机端产品画廊重新设计 */
+            .mobile-gallery-container {
+                width: 100% !important;
+                padding: 20px !important;
+                background: #fff !important;
+                border-radius: 10px !important;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            
             .mobile-gallery-grid {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
@@ -1510,9 +1520,17 @@
                 touch-action: manipulation !important;
             }
 
-            /* 隐藏原有的画廊布局 */
-            .product-gallery {
+            /* 隐藏原有的画廊布局（但保留手机端容器） */
+            .product-gallery:not(.mobile-gallery-container) {
                 display: none !important;
+            }
+            
+            /* 确保手机端模态框内容显示 */
+            #modalBody {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                min-height: 200px !important;
             }
 
             /* 提升手机端按钮点击区域 */
@@ -1530,6 +1548,8 @@
             .modal-content {
                 max-height: 85vh !important;
                 overflow: hidden !important;
+                margin: 10px !important;
+                padding: 20px !important;
             }
 
             .modal-header {
@@ -1539,6 +1559,24 @@
 
             .modal-title {
                 font-size: 1.5rem !important;
+            }
+            
+            /* 确保模态框在手机端正常显示 */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                padding: 20px;
+                box-sizing: border-box;
+            }
+            
+            .modal.show {
+                display: block !important;
             }
 
             /* 手机端全屏优化 */
@@ -2251,8 +2289,12 @@
             // 检测是否为手机设备
             const isMobile = window.innerWidth <= 768;
             
+            console.log('设备检测:', isMobile ? '手机' : '桌面', '屏幕宽度:', window.innerWidth);
+            console.log('产品类型:', productType, '图片数量:', images.length);
+            
             if (isMobile) {
                 // 手机端：纯缩略图网格布局
+                console.log('生成手机端模态框内容...');
                 modalBody.innerHTML = `
                     <div class="mobile-gallery-container">
                         <p style="text-align: center; color: #666; margin-bottom: 15px; font-size: 0.9rem;">
@@ -2268,6 +2310,7 @@
                         </div>
                     </div>
                 `;
+                console.log('手机端模态框内容已生成');
             } else {
                 // 桌面端：保持原有布局
                 modalBody.innerHTML = `
@@ -2293,7 +2336,18 @@
             }
             
             modal.style.display = 'block';
+            modal.classList.add('show');
             document.body.style.overflow = 'hidden';
+            
+            console.log('模态框已打开，modalBody内容:', modalBody.innerHTML.length > 0 ? '有内容' : '无内容');
+            
+            // 强制重新渲染
+            setTimeout(() => {
+                modalBody.style.display = 'block';
+                modalBody.style.visibility = 'visible';
+                modalBody.style.opacity = '1';
+                console.log('模态框内容强制显示完成');
+            }, 100);
         }
 
         function selectImage(index) {
@@ -2371,6 +2425,7 @@
         function closeProductModal() {
             const modal = document.getElementById('productModal');
             modal.style.display = 'none';
+            modal.classList.remove('show');
             document.body.style.overflow = 'auto';
         }
 
