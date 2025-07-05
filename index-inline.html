@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topvim | 阳江市益高箱包有限公司</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .nav-logo span {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            color: #2563eb;
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ea580c;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #2563eb;
+        }
+
+        .product-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 400px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .product-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2563eb;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .about {
+            background: #f8fafc;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-item {
+            background: #f8fafc;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .product-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-icon {
+            font-size: 3rem;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .product-item h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .product-item p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .product-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .product-features span {
+            background: white;
+            color: #2563eb;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* 产品汇总区域 */
+        .product-overview {
+            background: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
+            padding: 100px 0;
+        }
+
+        .overview-image {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 手稿图特色区域 */
+        .design-showcase {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+            padding: 100px 0;
+        }
+
+        .design-showcase .section-title {
+            color: white;
+        }
+
+        .design-image {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 联系我们区域 */
+        .contact {
+            background: #f8fafc;
+            padding: 100px 0;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: grid;
+            gap: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .contact-details p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .wechat-qr {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .wechat-qr h4 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            background: #f3f4f6;
+            border: 2px dashed #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            border-radius: 10px;
+            color: #9ca3af;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* 产品详情模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f3f4f6;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: #333;
+            background: #f3f4f6;
+        }
+
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .gallery-item {
+            text-align: center;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item h4 {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+
+            .product-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Topvim</h2>
+                <span>益高箱包</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a onclick="scrollToSection('home')">首页</a></li>
+                <li><a onclick="scrollToSection('about')">关于我们</a></li>
+                <li><a onclick="scrollToSection('products')">产品展示</a></li>
+                <li><a onclick="scrollToSection('contact')">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">创新设计<br>品质箱包</h1>
+                <p class="hero-subtitle">专业制造高品质保温包、旅行包、化妆包等系列产品</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h3>19+</h3>
+                        <p>年行业经验</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>1000+</h3>
+                        <p>产品款式</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>50+</h3>
+                        <p>合作伙伴</p>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="scrollToSection('products')">了解产品</button>
+                    <button class="btn-secondary" onclick="scrollToSection('contact')">联系我们</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="product-showcase">
+                    <div class="product-card" onclick="scrollToSection('products')">
+                        <div class="card-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <h4>购物袋</h4>
+                    </div>
+                    <div class="product-card" onclick="scrollToSection('products')">
+                        <div class="card-icon">
+                            <i class="fas fa-suitcase"></i>
+                        </div>
+                        <h4>旅行包</h4>
+                    </div>
+                    <div class="product-card" onclick="scrollToSection('products')">
+                        <div class="card-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h4>收纳系列</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="about section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">关于我们</h2>
+                <p class="section-subtitle">深耕箱包行业，铸就品质传奇</p>
+            </div>
+            <div style="text-align: center; padding: 50px 0;">
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #333;">阳江市益高箱包有限公司</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 10px; color: #666;">成立于2008年（前身2004年成立）</p>
+                <p style="font-size: 1rem; color: #666;">19年专业制造经验，成为行业领先的箱包制造商</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品汇总展示区域 -->
+    <section class="product-overview">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">产品总览</h2>
+                <p class="section-subtitle">一图了解我们的全系列产品</p>
+            </div>
+            <div style="text-align: center;">
+                <img src="product_pics/产品汇总介绍图/公司产品汇总图.jpg" alt="公司产品汇总图" class="overview-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 手稿图特色展示区域 -->
+    <section class="design-showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">设计匠心</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">每一个产品都源于精心的设计手稿</p>
+            </div>
+            <div style="text-align: center;">
+                <img src="product_pics/产品手稿图（特色展出区域）/手稿图.png" alt="产品设计手稿" class="design-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品展示 -->
+    <section id="products" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">产品展示</h2>
+                <p class="section-subtitle">多元化产品线，满足不同需求</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-item" onclick="openProductModal('保温包系列')">
+                    <div class="product-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3>保温包系列</h3>
+                    <p>专业保温技术，保持食物最佳温度</p>
+                    <div class="product-features">
+                        <span>环保材质</span>
+                        <span>持久保温</span>
+                        <span>时尚设计</span>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductModal('旅行包')">
+                    <div class="product-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3>旅行包</h3>
+                    <p>轻便耐用，让每次旅行更加便捷</p>
+                    <div class="product-features">
+                        <span>大容量</span>
+                        <span>防水防刮</span>
+                        <span>人性化设计</span>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductModal('化妆包')">
+                    <div class="product-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>化妆包</h3>
+                    <p>精致收纳，展现您的优雅品味</p>
+                    <div class="product-features">
+                        <span>分格设计</span>
+                        <span>防水面料</span>
+                        <span>便携美观</span>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductModal('购物袋')">
+                    <div class="product-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>购物袋</h3>
+                    <p>环保实用，绿色生活的完美选择</p>
+                    <div class="product-features">
+                        <span>环保材料</span>
+                        <span>结实耐用</span>
+                        <span>可折叠</span>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductModal('笔袋')">
+                    <div class="product-icon">
+                        <i class="fas fa-pen"></i>
+                    </div>
+                    <h3>笔袋</h3>
+                    <p>学生办公必备，整洁有序的好帮手</p>
+                    <div class="product-features">
+                        <span>多层收纳</span>
+                        <span>耐磨耐用</span>
+                        <span>颜值在线</span>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductModal('背包')">
+                    <div class="product-icon">
+                        <i class="fas fa-backpack"></i>
+                    </div>
+                    <h3>背包</h3>
+                    <p>时尚舒适，都市出行的理想伴侣</p>
+                    <div class="product-features">
+                        <span>减压背负</span>
+                        <span>多功能分层</span>
+                        <span>时尚外观</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="contact section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">联系我们</h2>
+                <p class="section-subtitle">期待与您合作共赢</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>公司名称</h4>
+                            <p>阳江市益高箱包有限公司</p>
+                            <p>Topvim</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>公司地址</h4>
+                            <p>阳江市江城区赤岗一街六号</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>联系电话</h4>
+                            <p>0662-3379333</p>
+                            <p>0662-3379338</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>邮箱地址</h4>
+                            <p>lcyj@21cn.net</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="wechat-qr">
+                    <h4><i class="fab fa-weixin" style="color: #07c160; margin-right: 10px;"></i>微信联系</h4>
+                    <div class="qr-placeholder">
+                        请将微信二维码<br>图片放置在此处
+                    </div>
+                    <p style="color: #666; font-size: 0.9rem;">扫码添加微信<br>获取更多产品信息</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background: #333; color: white; padding: 50px 0; text-align: center;">
+        <div class="container">
+            <h3 style="font-size: 2rem; margin-bottom: 10px; color: #2563eb;">Topvim</h3>
+            <p style="margin-bottom: 20px;">阳江市益高箱包有限公司</p>
+            <p style="color: #999;">&copy; 2024 阳江市益高箱包有限公司. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- 产品详情模态框 -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">产品详情</h2>
+                <span class="close" onclick="closeProductModal()">&times;</span>
+            </div>
+            <div id="modalBody" class="product-gallery">
+                <!-- 产品图片将在这里动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 平滑滚动函数
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                const offsetTop = element.offsetTop - 70;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // 产品详情模态框
+        function openProductModal(productType) {
+            const modal = document.getElementById('productModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = productType + ' - 详细展示';
+            
+            // 根据产品类型加载相应的图片
+            let images = [];
+            let basePath = 'product_pics/';
+            
+            switch(productType) {
+                case '背包':
+                    images = [
+                        { src: basePath + '背包/背包1.jpg', title: '背包款式一' },
+                        { src: basePath + '背包/背包2.jpg', title: '背包款式二' },
+                        { src: basePath + '背包/背包3.jpg', title: '背包款式三' },
+                        { src: basePath + '背包/背包4.jpg', title: '背包款式四' },
+                        { src: basePath + '背包/背包5.jpg', title: '背包款式五' }
+                    ];
+                    break;
+                case '化妆包':
+                    images = [
+                        { src: basePath + '化妆袋/卡通化妆袋_整体展示.jpg', title: '卡通化妆袋整体展示' },
+                        { src: basePath + '化妆袋/卡通化妆袋_正前方.png', title: '卡通化妆袋正前方' },
+                        { src: basePath + '化妆袋/卡通化妆袋_正上方.jpg', title: '卡通化妆袋正上方' }
+                    ];
+                    break;
+                case '购物袋':
+                    images = [
+                        { src: basePath + '购物袋/购物袋多色款式展示.jpg', title: '购物袋多色款式展示' }
+                    ];
+                    break;
+                default:
+                    images = [
+                        { src: 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(productType + '图片待添加'), title: productType + '（图片待添加）' }
+                    ];
+            }
+            
+            // 生成图片画廊HTML
+            modalBody.innerHTML = images.map(img => `
+                <div class="gallery-item">
+                    <img src="${img.src}" alt="${img.title}" loading="lazy">
+                    <h4>${img.title}</h4>
+                </div>
+            `).join('');
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 禁止背景滚动
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // 恢复背景滚动
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target == modal) {
+                closeProductModal();
+            }
+        }
+
+        // 页面加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('网站加载完成！');
+            
+            // 添加简单的按钮点击事件
+            document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+                if (!button.onclick) {  // 避免覆盖已有的onclick事件
+                    button.addEventListener('click', function() {
+                        alert('感谢您对Topvim的关注！');
+                    });
+                }
+            });
+
+            // ESC键关闭模态框
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeProductModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+ 

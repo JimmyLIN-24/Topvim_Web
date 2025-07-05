@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topvim | 阳江市益高箱包有限公司</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- GSAP库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #ffffff;
+        }
+
+        /* 导航栏样式增强 - 顶部蓝色，滚动时毛玻璃风格 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%);
+            z-index: 1000;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.35) 0%, 
+                rgba(248, 250, 252, 0.30) 50%, 
+                rgba(255, 255, 255, 0.25) 100%);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                0 4px 20px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        /* 滚动时的文字颜色变化 */
+        .navbar.scrolled .nav-logo h2 {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar.scrolled .nav-logo h2::after {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+        }
+
+        .navbar.scrolled .nav-logo span {
+            color: rgba(30, 58, 138, 0.85);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+
+        .navbar.scrolled .nav-menu a {
+            color: rgba(30, 58, 138, 0.9);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        /* 艺术字Logo设计 */
+        .nav-logo {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-logo h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 2px;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-logo:hover h2::after {
+            transform: scaleX(1);
+        }
+
+        .nav-logo span {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            letter-spacing: 2px;
+            display: block;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        /* 导航菜单美化 */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(37, 99, 235, 0.9) 0%, 
+                rgba(59, 130, 246, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-menu a:hover::before {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 20px rgba(37, 99, 235, 0.3),
+                0 4px 12px rgba(37, 99, 235, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        /* 英雄区域增强 */
+        .hero {
+            min-height: calc(100vh - 80px);
+            margin-top: 80px;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%);
+            display: flex;
+            align-items: center;
+            color: white;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.1)" points="0,0 1000,300 1000,1000 0,700"/></svg>');
+            background-size: cover;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-subtitle {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-description {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+        }
+
+        /* 数据统计区域增强 */
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 30px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+            flex: 1;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-item:last-child::after {
+            display: none;
+        }
+
+        .stat-item h3 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: #fbbf24;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 产品卡片增强 */
+        .product-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 400px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 25px 20px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .product-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #f59e0b;
+        }
+
+        .product-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 按钮样式增强 */
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+            color: white;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #2563EB;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        /* 通用样式 */
+        .section {
+            padding: 120px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 关于我们区域 */
+        .about {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            position: relative;
+        }
+
+        .about-content {
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+            background: 
+                linear-gradient(135deg, rgba(248, 250, 252, 0.75) 0%, rgba(226, 232, 240, 0.75) 100%),
+                url("product_pics/00公司实景图片/公司门牌.jpg");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.3) 0%, rgba(226, 232, 240, 0.2) 100%);
+            border-radius: 20px;
+            z-index: 1;
+        }
+
+        .about-content > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-content h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .about-content .company-info {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .about-content .company-desc {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 60px;
+        }
+
+        /* 公司实景展示区域 */
+        .company-showcase {
+            margin-top: 60px;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .company-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            border-radius: 2px;
+        }
+
+        .showcase-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .showcase-text {
+            flex: 1;
+            text-align: left;
+            opacity: 0;
+        }
+
+        .showcase-text h4 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .showcase-text p {
+            font-size: 1.1rem;
+            color: #475569;
+            line-height: 1.7;
+        }
+
+        .showcase-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .showcase-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .company-interior {
+            width: 100%;
+            max-width: 450px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .company-interior:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .company-interior:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .company-interior:hover:after {
+            transform: translateX(100%);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .about-content {
+                background-attachment: scroll;
+                margin: 20px 0;
+                border-radius: 15px;
+            }
+            
+            .showcase-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .showcase-text {
+                text-align: center;
+            }
+            
+            .company-showcase {
+                margin-top: 40px;
+                padding: 30px 0;
+            }
+            
+            .showcase-text h4 {
+                font-size: 1.5rem;
+            }
+            
+            .company-interior {
+                max-width: 100%;
+            }
+        }
+
+        /* 产品汇总区域 */
+        .product-overview {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        }
+
+        .overview-image {
+            max-width: 100%;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .overview-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* 产品展示区域 - 丰富颜色方案 */
+        .products {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .product-item {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            transition: left 0.3s ease;
+            z-index: 1;
+        }
+
+        .product-item:hover::before {
+            left: 0;
+        }
+
+        .product-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 不同系列产品的颜色方案 */
+        .series-storage {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+        }
+
+        .series-storage:hover {
+            border-color: #059669;
+            box-shadow: 0 25px 50px rgba(16, 185, 129, 0.2);
+        }
+
+        .series-storage .product-icon {
+            color: #10b981;
+        }
+
+        .series-storage .product-title {
+            color: #059669;
+        }
+
+        .series-travel {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+        }
+
+        .series-travel:hover {
+            border-color: #2563eb;
+            box-shadow: 0 25px 50px rgba(59, 130, 246, 0.2);
+        }
+
+        .series-travel .product-icon {
+            color: #3b82f6;
+        }
+
+        .series-travel .product-title {
+            color: #2563eb;
+        }
+
+        .series-cosmetic {
+            border-color: #ec4899;
+            background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+        }
+
+        .series-cosmetic:hover {
+            border-color: #db2777;
+            box-shadow: 0 25px 50px rgba(236, 72, 153, 0.2);
+        }
+
+        .series-cosmetic .product-icon {
+            color: #ec4899;
+        }
+
+        .series-cosmetic .product-title {
+            color: #db2777;
+        }
+
+        .series-sport {
+            border-color: #f59e0b;
+            background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%);
+        }
+
+        .series-sport:hover {
+            border-color: #d97706;
+            box-shadow: 0 25px 50px rgba(245, 158, 11, 0.2);
+        }
+
+        .series-sport .product-icon {
+            color: #f59e0b;
+        }
+
+        .series-sport .product-title {
+            color: #d97706;
+        }
+
+        .series-backpack {
+            border-color: #8b5cf6;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+        }
+
+        .series-backpack:hover {
+            border-color: #7c3aed;
+            box-shadow: 0 25px 50px rgba(139, 92, 246, 0.2);
+        }
+
+        .series-backpack .product-icon {
+            color: #8b5cf6;
+        }
+
+        .series-backpack .product-title {
+            color: #7c3aed;
+        }
+
+        .series-crossbody {
+            border-color: #6b7280;
+            background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+        }
+
+        .series-crossbody:hover {
+            border-color: #4b5563;
+            box-shadow: 0 25px 50px rgba(107, 114, 128, 0.2);
+        }
+
+        .series-crossbody .product-icon {
+            color: #6b7280;
+        }
+
+        .series-crossbody .product-title {
+            color: #4b5563;
+        }
+
+        .series-shopping {
+            border-color: #14b8a6;
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+        }
+
+        .series-shopping:hover {
+            border-color: #0f766e;
+            box-shadow: 0 25px 50px rgba(20, 184, 166, 0.2);
+        }
+
+        .series-shopping .product-icon {
+            color: #14b8a6;
+        }
+
+        .series-shopping .product-title {
+            color: #0f766e;
+        }
+
+        .product-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .product-desc {
+            color: #6b7280;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .product-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-tag {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: #374151;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .feature-tag:hover {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            transform: translateY(-2px);
+        }
+
+        /* 公司活动区域 */
+        .company-event {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+        }
+
+        .company-event .section-title {
+            color: white;
+        }
+
+        .company-event .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .event-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .event-image img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .event-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fbbf24;
+        }
+
+        .event-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #fde047;
+            font-weight: 600;
+        }
+
+        .event-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .event-highlights {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .highlight-item i {
+            color: #fbbf24;
+            font-size: 1.2rem;
+        }
+
+        .highlight-item span {
+            font-weight: 600;
+        }
+
+        /* 设计匠心区域 */
+        .design-showcase {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+        }
+
+        .design-showcase .section-title {
+            color: white;
+        }
+
+        .design-showcase .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .design-image {
+            max-width: 100%;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .design-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* 联系我们区域 */
+        .contact {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: grid;
+            gap: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .contact-details p {
+            color: #64748b;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .wechat-qr {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .wechat-qr h4 {
+            margin-bottom: 25px;
+            color: #1e293b;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .qr-placeholder {
+            width: 220px;
+            height: 220px;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border: 2px dashed #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border-radius: 15px;
+            color: #9ca3af;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-subtitle {
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+            color: #d1d5db;
+        }
+
+        .footer-copyright {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* 产品详情模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            border-radius: 25px;
+            width: 95%;
+            max-width: 1200px;
+            max-height: 90vh;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 30px 20px;
+            border-bottom: 2px solid #f3f4f6;
+            background: white;
+            border-radius: 25px 25px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .modal-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close {
+            color: #9ca3af;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: #374151;
+            background: #f3f4f6;
+            transform: scale(1.1);
+        }
+
+        .product-gallery {
+            display: flex;
+            height: 600px;
+            gap: 30px;
+        }
+
+        .gallery-sidebar {
+            width: 520px;
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gallery-sidebar h3 {
+            font-size: 1.2rem;
+            color: #374151;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .sidebar-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .gallery-item {
+            display: flex;
+            flex-direction: column;
+            padding: 18px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item:hover {
+            background: #f1f5f9;
+            transform: translateY(-3px);
+            border-color: #2563EB;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+        }
+
+        .gallery-item.active {
+            background: #2563EB;
+            color: white;
+            border-color: #2563EB;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .gallery-item h4 {
+            font-size: 0.9rem;
+            color: inherit;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .gallery-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .gallery-main img {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-main img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-main h3 {
+            font-size: 1.5rem;
+            color: #374151;
+            margin-top: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .gallery-main .product-info {
+            margin-top: 15px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+
+            .nav-logo h2 {
+                font-size: 1.8rem;
+            }
+
+            .nav-container {
+                height: 70px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .product-item {
+                padding: 30px 20px;
+            }
+
+            .event-card {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 30px;
+                text-align: center;
+            }
+
+            .event-highlights {
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .highlight-item {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-item {
+                padding: 20px;
+            }
+
+            .wechat-qr {
+                padding: 30px;
+            }
+
+            .qr-placeholder {
+                width: 180px;
+                height: 180px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 20px;
+            }
+
+            .modal-title {
+                font-size: 1.8rem;
+            }
+
+            .product-gallery {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .gallery-sidebar {
+                width: 100%;
+                height: 280px;
+                margin-bottom: 20px;
+            }
+
+            .gallery-sidebar h3 {
+                font-size: 1rem;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+
+            .sidebar-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .gallery-item {
+                padding: 10px;
+            }
+
+            .gallery-item img {
+                height: 100px;
+                margin-bottom: 8px;
+            }
+
+            .gallery-item h4 {
+                font-size: 0.75rem;
+            }
+
+            .hero-stats {
+                gap: 20px;
+                padding: 20px 25px;
+                flex-direction: column;
+            }
+
+            .stat-item::after {
+                display: none;
+            }
+
+            .stat-item h3 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                padding: 15px 20px;
+                font-size: 1.1rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+                margin-bottom: 30px;
+            }
+
+            .gallery-main {
+                padding: 20px;
+            }
+
+            .gallery-main img {
+                max-height: 300px;
+            }
+
+            .gallery-main h3 {
+                font-size: 1.2rem;
+                margin-top: 15px;
+            }
+
+            .footer-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* 文字分割动画样式 */
+        .split-text {
+            overflow: hidden;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .split-text .char {
+            display: inline-block;
+            will-change: transform, opacity;
+            transform-origin: center bottom;
+        }
+
+        /* 英雄标题样式增强 */
+        .hero-title {
+            margin-bottom: 30px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            text-align: left;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Topvim</h2>
+                <span>益高箱包</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a onclick="scrollToSection('home')">首页</a></li>
+                <li><a onclick="scrollToSection('about')">关于我们</a></li>
+                <li><a onclick="scrollToSection('products')">产品展示</a></li>
+                <li><a onclick="scrollToSection('company-event')">公司活动</a></li>
+                <li><a onclick="scrollToSection('contact')">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="split-text" data-text="创新设计">创新设计</span><br>
+                    <span class="split-text" data-text="品质箱包">品质箱包</span>
+                </h1>
+                <p class="hero-description">专业制造高品质多功能收纳包、旅行包、化妆包、运动包等系列产品</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h3>20+</h3>
+                        <p>年行业经验</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>1000+</h3>
+                        <p>产品款式</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>50+</h3>
+                        <p>合作伙伴</p>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="scrollToSection('products')">了解产品</button>
+                    <button class="btn-secondary" onclick="scrollToSection('contact')">联系我们</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="product-showcase">
+                    <div class="product-card" onclick="scrollToSection('products')">
+                        <div class="card-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h4>多功能收纳包</h4>
+                    </div>
+                    <div class="product-card" onclick="scrollToSection('products')">
+                        <div class="card-icon">
+                            <i class="fas fa-suitcase"></i>
+                        </div>
+                        <h4>旅行包</h4>
+                    </div>
+                    <div class="product-card" onclick="scrollToSection('products')">
+                        <div class="card-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h4>运动健身包</h4>
+                    </div>
+                    <div class="product-card" onclick="scrollToSection('products')">
+                        <div class="card-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4>化妆包</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="about section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">关于我们</h2>
+                <p class="section-subtitle">深耕箱包行业，铸就品质传奇</p>
+            </div>
+            <div class="about-content">
+                <h3>阳江市益高箱包有限公司</h3>
+                <p class="company-info">成立于2008年（前身2004年成立）</p>
+                <p class="company-desc">20年专业制造经验，成为行业领先的箱包制造商。我们致力于为全球客户提供高品质、创新设计的箱包产品，涵盖多功能收纳包、旅行包、化妆包、运动健身包等多个系列。</p>
+                
+                <!-- 公司实景展示 -->
+                <div class="company-showcase">
+                    <div class="showcase-content">
+                        <div class="showcase-text">
+                            <h4>专业生产环境</h4>
+                            <p>我们拥有现代化的生产设施和专业的技术团队，每一件产品都经过精心制作，确保品质卓越。从原材料选择到成品出厂，我们严格把控每一个环节，为客户提供最优质的箱包产品。</p>
+                        </div>
+                        <div class="showcase-image">
+                            <img src="product_pics/00公司实景图片/公司内部图片.jpg" alt="公司内部生产环境" class="company-interior">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品汇总展示区域 -->
+    <section class="product-overview section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">产品总览</h2>
+                <p class="section-subtitle">一张图了解我们的主营产品</p>
+            </div>
+            <div style="text-align: center;">
+                <img src="product_pics/02产品汇总介绍图/公司产品汇总图.png" alt="公司产品汇总图" class="overview-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品展示 -->
+    <section id="products" class="products section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">产品展示</h2>
+                <p class="section-subtitle">多元化产品线，满足不同需求</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-item series-storage" onclick="openProductModal('多功能收纳包')">
+                    <div class="product-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <h3 class="product-title">多功能收纳包</h3>
+                    <p class="product-desc">智能分隔设计，让生活更有序</p>
+                    <div class="product-features">
+                        <span class="feature-tag">多隔层</span>
+                        <span class="feature-tag">防水材质</span>
+                        <span class="feature-tag">时尚外观</span>
+                    </div>
+                </div>
+                <div class="product-item series-travel" onclick="openProductModal('旅行包')">
+                    <div class="product-icon">
+                        <i class="fas fa-suitcase"></i>
+                    </div>
+                    <h3 class="product-title">旅行包</h3>
+                    <p class="product-desc">轻便耐用，让每次旅行更加便捷</p>
+                    <div class="product-features">
+                        <span class="feature-tag">大容量</span>
+                        <span class="feature-tag">防水防刮</span>
+                        <span class="feature-tag">人性化设计</span>
+                    </div>
+                </div>
+                <div class="product-item series-cosmetic" onclick="openProductModal('化妆包')">
+                    <div class="product-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="product-title">化妆包</h3>
+                    <p class="product-desc">精致收纳，展现您的优雅品味</p>
+                    <div class="product-features">
+                        <span class="feature-tag">分格设计</span>
+                        <span class="feature-tag">防水面料</span>
+                        <span class="feature-tag">便携美观</span>
+                    </div>
+                </div>
+                <div class="product-item series-sport" onclick="openProductModal('运动健身游泳包')">
+                    <div class="product-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3 class="product-title">运动健身游泳包</h3>
+                    <p class="product-desc">专业运动装备，激发运动潜能</p>
+                    <div class="product-features">
+                        <span class="feature-tag">透气排汗</span>
+                        <span class="feature-tag">耐磨材质</span>
+                        <span class="feature-tag">专业设计</span>
+                    </div>
+                </div>
+                <div class="product-item series-backpack" onclick="openProductModal('背包')">
+                    <div class="product-icon">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <h3 class="product-title">背包</h3>
+                    <p class="product-desc">时尚舒适，都市出行的理想伴侣</p>
+                    <div class="product-features">
+                        <span class="feature-tag">减压背负</span>
+                        <span class="feature-tag">多功能分层</span>
+                        <span class="feature-tag">时尚外观</span>
+                    </div>
+                </div>
+                <div class="product-item series-crossbody" onclick="openProductModal('斜挎包')">
+                    <div class="product-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="product-title">斜挎包</h3>
+                    <p class="product-desc">商务休闲两相宜，品质生活首选</p>
+                    <div class="product-features">
+                        <span class="feature-tag">商务风格</span>
+                        <span class="feature-tag">优质皮革</span>
+                        <span class="feature-tag">实用便携</span>
+                    </div>
+                </div>
+                <div class="product-item series-shopping" onclick="openProductModal('购物袋')">
+                    <div class="product-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3 class="product-title">购物袋</h3>
+                    <p class="product-desc">环保实用，绿色生活的完美选择</p>
+                    <div class="product-features">
+                        <span class="feature-tag">环保材料</span>
+                        <span class="feature-tag">结实耐用</span>
+                        <span class="feature-tag">可折叠</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 公司活动展示区域 -->
+    <section id="company-event" class="company-event section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">公司活动</h2>
+                <p class="section-subtitle">共同成长，共创辉煌</p>
+            </div>
+            <div class="event-content">
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="product_pics/01公司活动/2025年团年饭&20周年庆/阳江市益高箱包有限公司巳巳如意.png" alt="2025年团年饭&20周年庆邀请函">
+                    </div>
+                    <div class="event-details">
+                        <h3 class="event-title">2025年团年饭 & 20周年庆典</h3>
+                        <p class="event-subtitle">巳巳如意 · 共创未来</p>
+                        <p class="event-description">
+                            在这个特殊的年份，我们迎来了公司成立20周年的重要里程碑。
+                            回首过往，我们从2004年的利诚皮革到2008年的益高箱包，一路走来见证了无数的成长与蜕变。
+                            20年来，我们始终坚持品质第一的理念，不断创新，为客户提供更优质的产品和服务。
+                        </p>
+                        <div class="event-highlights">
+                            <div class="highlight-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>成立20周年</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-users"></i>
+                                <span>团队共庆</span>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-rocket"></i>
+                                <span>展望未来</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 手稿图特色展示区域 -->
+    <section class="design-showcase section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">设计匠心</h2>
+                <p class="section-subtitle">每一个产品都源于精心的设计手稿</p>
+            </div>
+            <div style="text-align: center;">
+                <img src="product_pics/03产品手稿图（特色展出区域）/手稿图.png" alt="产品设计手稿" class="design-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="contact section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">联系我们</h2>
+                <p class="section-subtitle">期待与您合作共赢</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>公司名称</h4>
+                            <p>阳江市益高箱包有限公司</p>
+                            <p>Topvim</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>公司地址</h4>
+                            <p>阳江市江城区赤岗一街六号</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>联系电话</h4>
+                            <p>0662-3379333</p>
+                            <p>0662-3379338</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>邮箱地址</h4>
+                            <p>lcyj@21cn.net</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="wechat-qr">
+                    <h4><i class="fab fa-weixin" style="color: #07c160; margin-right: 10px;"></i>微信联系</h4>
+                    <div class="qr-placeholder">
+                        请将微信二维码<br>图片放置在此处
+                    </div>
+                    <p style="color: #666; font-size: 0.9rem;">扫码添加微信<br>获取更多产品信息</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <h3 class="footer-title">Topvim</h3>
+            <p class="footer-subtitle">阳江市益高箱包有限公司</p>
+            <p class="footer-copyright">&copy; 2024 阳江市益高箱包有限公司. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- 产品详情模态框 -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">产品详情</h2>
+                <span class="close" onclick="closeProductModal()">&times;</span>
+            </div>
+            <div id="modalBody" class="product-gallery">
+                <!-- 产品图片将在这里动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 注册GSAP插件
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 文字分割动画函数
+        function createSplitTextAnimation() {
+            const splitTextElements = document.querySelectorAll('.split-text');
+            
+            splitTextElements.forEach((element, index) => {
+                const text = element.getAttribute('data-text');
+                
+                // 清空原有内容
+                element.innerHTML = '';
+                
+                // 将文字分割成字符
+                const chars = text.split('');
+                chars.forEach((char, i) => {
+                    const span = document.createElement('span');
+                    span.className = 'char';
+                    span.textContent = char;
+                    span.style.display = 'inline-block';
+                    element.appendChild(span);
+                });
+                
+                // 获取所有字符元素
+                const charElements = element.querySelectorAll('.char');
+                
+                // 设置初始状态
+                gsap.set(charElements, {
+                    opacity: 0,
+                    y: 40,
+                    force3D: true
+                });
+                
+                // 创建动画时间线
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: element,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none',
+                        once: true
+                    }
+                });
+                
+                // 添加动画
+                tl.to(charElements, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: 'power3.out',
+                    stagger: 0.1, // 每个字符间隔0.1秒
+                    force3D: true,
+                    onComplete: () => {
+                        // 动画完成后清理样式
+                        gsap.set(charElements, {
+                            clearProps: 'all'
+                        });
+                        console.log(`文字"${text}"动画完成！`);
+                    }
+                });
+            });
+        }
+
+        // 公司实景图片动画
+        function createCompanyImageAnimation() {
+            const companyImage = document.querySelector('.company-interior');
+            const showcaseText = document.querySelector('.showcase-text');
+            
+            if (companyImage && showcaseText) {
+                // 设置初始状态
+                gsap.set(companyImage, {
+                    opacity: 0,
+                    x: 100,
+                    scale: 0.8
+                });
+                
+                gsap.set(showcaseText, {
+                    opacity: 0,
+                    x: -50
+                });
+                
+                // 创建时间线动画
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: '.company-showcase',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none',
+                        once: true
+                    }
+                });
+                
+                tl.to(showcaseText, {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                })
+                .to(companyImage, {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'power2.out'
+                }, "-=0.4");
+            }
+        }
+
+        // 页面加载完成后初始化动画
+        document.addEventListener('DOMContentLoaded', function() {
+            createSplitTextAnimation();
+            createCompanyImageAnimation();
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 平滑滚动函数
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                const offsetTop = element.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // 产品详情模态框
+        let currentImages = [];
+        let currentImageIndex = 0;
+
+        function openProductModal(productType) {
+            const modal = document.getElementById('productModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = productType + ' - 详细展示';
+            
+            // 根据产品类型加载相应的图片
+            let images = [];
+            let basePath = 'product_pics/';
+            
+            switch(productType) {
+                case '多功能收纳包':
+                    images = [
+                        { src: basePath + '多功能收纳包/多功能收纳包1.jpg', title: '多功能收纳包 - 款式一' },
+                        { src: basePath + '多功能收纳包/多功能收纳包2.jpg', title: '多功能收纳包 - 款式二' },
+                        { src: basePath + '多功能收纳包/多功能收纳包3.jpg', title: '多功能收纳包 - 款式三' },
+                        { src: basePath + '多功能收纳包/多功能收纳包4.jpg', title: '多功能收纳包 - 款式四' },
+                        { src: basePath + '多功能收纳包/多功能收纳包5.jpg', title: '多功能收纳包 - 款式五' },
+                        { src: basePath + '多功能收纳包/多功能收纳包6.jpg', title: '多功能收纳包 - 款式六' },
+                        { src: basePath + '多功能收纳包/多功能收纳包7_卡通_整体展示.jpg', title: '卡通收纳包 - 整体展示' },
+                        { src: basePath + '多功能收纳包/多功能收纳包7_卡通_正前方.png', title: '卡通收纳包 - 正前方' },
+                        { src: basePath + '多功能收纳包/多功能收纳包7_卡通_正上方.jpg', title: '卡通收纳包 - 正上方' },
+                        { src: basePath + '多功能收纳包/多功能收纳包8.jpg', title: '多功能收纳包 - 款式八' },
+                        { src: basePath + '多功能收纳包/多功能收纳包9.jpg', title: '多功能收纳包 - 款式九' }
+                    ];
+                    break;
+                case '旅行包':
+                    images = [
+                        { src: basePath + '旅行包/旅行包1.jpg', title: '旅行包 - 款式一' },
+                        { src: basePath + '旅行包/旅行包2.jpg', title: '旅行包 - 款式二' },
+                        { src: basePath + '旅行包/旅行包3.jpg', title: '旅行包 - 款式三' },
+                        { src: basePath + '旅行包/旅行包4.jpg', title: '旅行包 - 款式四' },
+                        { src: basePath + '旅行包/旅行包5.jpg', title: '旅行包 - 款式五' },
+                        { src: basePath + '旅行包/旅行包6.jpg', title: '旅行包 - 款式六' },
+                        { src: basePath + '旅行包/旅行包7.jpg', title: '旅行包 - 款式七' },
+                        { src: basePath + '旅行包/旅行包8.jpg', title: '旅行包 - 款式八' },
+                        { src: basePath + '旅行包/旅行包9.jpg', title: '旅行包 - 款式九' },
+                        { src: basePath + '旅行包/旅行包10.jpg', title: '旅行包 - 款式十' },
+                        { src: basePath + '旅行包/旅行包11.jpg', title: '旅行包 - 款式十一' },
+                        { src: basePath + '旅行包/旅行包12.jpg', title: '旅行包 - 款式十二' }
+                    ];
+                    break;
+                case '化妆包':
+                    images = [
+                        { src: basePath + '化妆包/化妆包1.jpg', title: '化妆包 - 经典款' },
+                        { src: basePath + '化妆包/化妆包2.jpg', title: '化妆包 - 时尚款' },
+                        { src: basePath + '化妆包/化妆包3.png', title: '化妆包 - 优雅款' },
+                        { src: basePath + '化妆包/化妆包4.jpg', title: '化妆包 - 简约款' },
+                        { src: basePath + '化妆包/19811d7e23d747c176f30a6585653b4.jpg', title: '化妆包 - 精美款式' },
+                        { src: basePath + '化妆包/697f69ae5e141a833d1b06cc390c29e.jpg', title: '化妆包 - 典雅款式' },
+                        { src: basePath + '化妆包/ccb71067f1b7fe2b6e18bbe45bf70cf.jpg', title: '化妆包 - 时尚款式' }
+                    ];
+                    break;
+                case '运动健身游泳包':
+                    images = [
+                        { src: basePath + '运动健身游泳包/运动多功能包1.jpg', title: '运动多功能包 - 款式一' },
+                        { src: basePath + '运动健身游泳包/运动多功能包2.jpg', title: '运动多功能包 - 款式二' }
+                    ];
+                    break;
+                case '背包':
+                    images = [
+                        { src: basePath + '背包/背包1.jpg', title: '背包 - 款式一' },
+                        { src: basePath + '背包/背包2.jpg', title: '背包 - 款式二' },
+                        { src: basePath + '背包/背包3.jpg', title: '背包 - 款式三' },
+                        { src: basePath + '背包/背包4.jpg', title: '背包 - 款式四' },
+                        { src: basePath + '背包/背包5.jpg', title: '背包 - 款式五' },
+                        { src: basePath + '背包/背包6.jpg', title: '背包 - 款式六' },
+                        { src: basePath + '背包/背包7.jpg', title: '背包 - 款式七' },
+                        { src: basePath + '背包/背包8.jpg', title: '背包 - 款式八' },
+                        { src: basePath + '背包/背包09.jpg', title: '背包 - 款式九' },
+                        { src: basePath + '背包/背包10.jpg', title: '背包 - 款式十' },
+                        { src: basePath + '背包/背包11.jpg', title: '背包 - 款式十一' },
+                        { src: basePath + '背包/背包12_可折叠.jpg', title: '背包 - 可折叠款式' },
+                        { src: basePath + '背包/背包13_可折叠.jpg', title: '背包 - 可折叠款式二' }
+                    ];
+                    break;
+                case '斜挎包':
+                    images = [
+                        { src: basePath + '斜挎包/斜挎包1.jpg', title: '斜挎包 - 商务款' }
+                    ];
+                    break;
+                case '购物袋':
+                    images = [
+                        { src: basePath + '购物袋/购物袋多色款式展示.jpg', title: '购物袋 - 多色款式展示' }
+                    ];
+                    break;
+                default:
+                    images = [
+                        { src: 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(productType + '图片待添加'), title: productType + '（图片待添加）' }
+                    ];
+            }
+            
+            currentImages = images;
+            currentImageIndex = 0;
+            
+            // 生成新的模态框布局  
+            modalBody.innerHTML = `
+                <div class="product-gallery">
+                    <div class="gallery-sidebar">
+                        <h3>${productType}系列</h3>
+                        <div class="sidebar-content">
+                            ${images.map((img, index) => `
+                                <div class="gallery-item ${index === 0 ? 'active' : ''}" onclick="selectImage(${index})">
+                                    <img src="${img.src}" alt="${img.title}" loading="lazy">
+                                    <h4>${img.title}</h4>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="gallery-main">
+                        <img src="${images[0].src}" alt="${images[0].title}" id="mainImage">
+                        <h3 id="mainTitle">${images[0].title}</h3>
+                        <div class="product-info">点击左侧产品预览查看其他款式</div>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function selectImage(index) {
+            currentImageIndex = index;
+            const image = currentImages[index];
+            
+            // 更新右侧主图
+            document.getElementById('mainImage').src = image.src;
+            document.getElementById('mainTitle').textContent = image.title;
+            
+            // 更新左侧选中状态
+            document.querySelectorAll('.gallery-item').forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                closeProductModal();
+            }
+        }
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeProductModal();
+            }
+        });
+    </script>
+</body>
+</html> 

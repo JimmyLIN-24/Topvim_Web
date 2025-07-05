@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS测试页面</title>
+    <style>
+        /* 内联CSS测试 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .test-container {
+            padding: 50px 20px;
+            text-align: center;
+        }
+        
+        .test-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .test-button {
+            background: #f59e0b;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .test-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="test-title">CSS测试页面</h1>
+        <p>如果您能看到这个页面有背景渐变和样式，说明基本CSS功能正常</p>
+        
+        <div class="test-card">
+            <h3>测试卡片</h3>
+            <p>这是一个测试卡片，检查样式是否正常</p>
+            <button class="test-button">测试按钮</button>
+        </div>
+        
+        <p>如果此页面显示正常，问题可能出在主CSS文件中</p>
+    </div>
+</body>
+</html> 
