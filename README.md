@@ -109,7 +109,10 @@ http://localhost:8000/index.html
 
 1. 在GitHub仓库的Settings中开启Pages功能
 2. 选择source为`main`分支
-3. 网站将自动部署到：`https://JimmyLIN-24.github.io/Topvim_Web/`
+3. 配置自定义域名：`www.topvim.cn`
+4. 网站访问地址：
+   - **主域名**: https://www.topvim.cn
+   - **GitHub Pages**: https://JimmyLIN-24.github.io/Topvim_Web/
 
 ## 📸 功能展示
 
@@ -156,9 +159,21 @@ http://localhost:8000/index.html
 
 主要样式文件：`style.css`和`index-enhanced.html`中的`<style>`标签
 
+## 🌐 域名配置
+
+项目已配置自定义域名，支持以下访问方式：
+
+- **主域名**: https://www.topvim.cn （推荐）
+- **GitHub Pages**: https://JimmyLIN-24.github.io/Topvim_Web/
+
+### DNS 解析配置
+- 腾讯云域名：`www.topvim.cn`
+- CNAME 记录：`jimmylin-24.github.io`
+- 自动 HTTPS 证书
+
 ## 📞 联系信息
 
-- **网站**: www.topvim.cn
+- **网站**: https://www.topvim.cn
 - **地址**: 广东省阳江市
 - **邮箱**: contact@topvim.cn
 - **电话**: +86-xxx-xxxx-xxxx
