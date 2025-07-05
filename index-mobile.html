@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
             <title>Topvim | 阳江市益高箱包有限公司 - 手机版</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
@@ -412,12 +412,51 @@
                 margin: 0;
                 padding: 0;
                 width: 100%;
+                min-width: 100%;
                 overflow-x: hidden;
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                text-size-adjust: 100%;
             }
             
             html {
                 width: 100%;
+                min-width: 100%;
                 overflow-x: hidden;
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+            }
+            
+            /* 防止页面缩放和布局错乱 */
+            * {
+                -webkit-text-size-adjust: none;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                box-sizing: border-box;
+            }
+            
+            /* 允许文字选择 */
+            p, h1, h2, h3, h4, h5, h6, span, div, .modal-content {
+                -webkit-user-select: text;
+                -khtml-user-select: text;
+                -moz-user-select: text;
+                -ms-user-select: text;
+                user-select: text;
+            }
+            
+            /* 确保全屏查看器正常工作 */
+            #fullscreenViewer {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: 9999;
             }
         }
 
@@ -2303,12 +2342,30 @@
             image.src = imageSrc;
             viewer.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            
+            // 强制重新计算viewport
+            document.documentElement.style.width = '100vw';
+            document.documentElement.style.height = '100vh';
         }
 
         function closeFullscreen() {
             const viewer = document.getElementById('fullscreenViewer');
             viewer.style.display = 'none';
             document.body.style.overflow = 'auto';
+            
+            // 恢复正常的viewport和布局
+            document.documentElement.style.width = '';
+            document.documentElement.style.height = '';
+            
+            // 强制重新计算页面布局
+            setTimeout(() => {
+                document.documentElement.style.width = '100%';
+                document.body.style.width = '100%';
+                document.body.style.minWidth = '100%';
+                
+                // 触发重新布局
+                window.dispatchEvent(new Event('resize'));
+            }, 50);
         }
 
         function closeProductModal() {
