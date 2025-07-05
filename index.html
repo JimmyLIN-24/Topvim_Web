@@ -436,8 +436,9 @@
             background: 
                 linear-gradient(135deg, rgba(248, 250, 252, 0.75) 0%, rgba(226, 232, 240, 0.75) 100%),
                 url("product_pics/00公司实景图片/公司门牌.jpg");
-            background-size: cover;
+            background-size: contain;
             background-position: center;
+            background-repeat: no-repeat;
             background-attachment: fixed;
             border-radius: 20px;
             margin: 40px 0;
@@ -584,6 +585,7 @@
         @media (max-width: 768px) {
             .about-content {
                 background-attachment: scroll;
+                background-size: cover;
                 margin: 20px 0;
                 border-radius: 15px;
             }
@@ -1758,6 +1760,7 @@
                         </div>
                         <div class="contact-details">
                             <h4>联系电话</h4>
+                            <p>13924396639</p>
                             <p>0662-3379333</p>
                             <p>0662-3379338</p>
                         </div>
@@ -1768,15 +1771,14 @@
                         </div>
                         <div class="contact-details">
                             <h4>邮箱地址</h4>
+                            <p>ken9939@126.com</p>
                             <p>lcyj@21cn.net</p>
                         </div>
                     </div>
                 </div>
                 <div class="wechat-qr">
                     <h4><i class="fab fa-weixin" style="color: #07c160; margin-right: 10px;"></i>微信联系</h4>
-                    <div class="qr-placeholder">
-                        请将微信二维码<br>图片放置在此处
-                    </div>
+                    <img src="product_pics/04微信二维码/QR_Code.png" alt="微信二维码" style="width: 220px; height: 220px; border-radius: 15px; margin-bottom: 20px;">
                     <p style="color: #666; font-size: 0.9rem;">扫码添加微信<br>获取更多产品信息</p>
                 </div>
             </div>
@@ -1787,7 +1789,7 @@
         <div class="container">
             <h3 class="footer-title">Topvim</h3>
             <p class="footer-subtitle">阳江市益高箱包有限公司</p>
-            <p class="footer-copyright">&copy; 2024 阳江市益高箱包有限公司. 保留所有权利.</p>
+            <p class="footer-copyright">&copy; 2025 阳江市益高箱包有限公司. 保留所有权利.</p>
         </div>
     </footer>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Topvim | 阳江市益高箱包有限公司</title>
+            <title>Topvim | 阳江市益高箱包有限公司 - 手机版</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- GSAP库 -->
@@ -436,8 +436,9 @@
             background: 
                 linear-gradient(135deg, rgba(248, 250, 252, 0.75) 0%, rgba(226, 232, 240, 0.75) 100%),
                 url("product_pics/00公司实景图片/公司门牌.jpg");
-            background-size: cover;
+            background-size: contain;
             background-position: center;
+            background-repeat: no-repeat;
             background-attachment: fixed;
             border-radius: 20px;
             margin: 40px 0;
@@ -584,6 +585,7 @@
         @media (max-width: 768px) {
             .about-content {
                 background-attachment: scroll;
+                background-size: cover;
                 margin: 20px 0;
                 border-radius: 15px;
             }
@@ -1355,6 +1357,82 @@
                 font-size: 1.8rem;
             }
 
+            /* 手机端产品画廊优化 */
+            .product-gallery {
+                grid-template-columns: 1fr !important;
+            }
+
+            .gallery-sidebar {
+                order: 2;
+            }
+
+            .gallery-main {
+                order: 1;
+                margin-bottom: 30px;
+            }
+
+            .sidebar-content {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 15px !important;
+            }
+
+            .gallery-item {
+                padding: 10px !important;
+                cursor: pointer;
+            }
+
+            .gallery-item img {
+                width: 100% !important;
+                height: 120px !important;
+                object-fit: cover !important;
+                border-radius: 10px !important;
+                transition: transform 0.3s ease !important;
+            }
+
+            .gallery-item:hover img {
+                transform: scale(1.05) !important;
+            }
+
+            .gallery-item h4 {
+                font-size: 0.8rem !important;
+                margin-top: 8px !important;
+                line-height: 1.2 !important;
+            }
+
+            /* 手机端触摸优化 */
+            .gallery-item, .gallery-main img {
+                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+            }
+
+            .gallery-item {
+                position: relative;
+            }
+
+            .gallery-item.active::after {
+                content: '';
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                right: 5px;
+                bottom: 5px;
+                border: 3px solid #2563EB;
+                border-radius: 10px;
+                pointer-events: none;
+            }
+
+            /* 提升手机端按钮点击区域 */
+            .nav-menu a {
+                min-height: 44px !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+
+            .contact-item {
+                min-height: 80px !important;
+            }
+
             .product-gallery {
                 flex-direction: column;
                 height: auto;
@@ -1758,6 +1836,7 @@
                         </div>
                         <div class="contact-details">
                             <h4>联系电话</h4>
+                            <p>13924396639</p>
                             <p>0662-3379333</p>
                             <p>0662-3379338</p>
                         </div>
@@ -1768,15 +1847,14 @@
                         </div>
                         <div class="contact-details">
                             <h4>邮箱地址</h4>
+                            <p>ken9939@126.com</p>
                             <p>lcyj@21cn.net</p>
                         </div>
                     </div>
                 </div>
                 <div class="wechat-qr">
                     <h4><i class="fab fa-weixin" style="color: #07c160; margin-right: 10px;"></i>微信联系</h4>
-                    <div class="qr-placeholder">
-                        请将微信二维码<br>图片放置在此处
-                    </div>
+                    <img src="product_pics/04微信二维码/QR_Code.png" alt="微信二维码" style="width: 220px; height: 220px; border-radius: 15px; margin-bottom: 20px;">
                     <p style="color: #666; font-size: 0.9rem;">扫码添加微信<br>获取更多产品信息</p>
                 </div>
             </div>
@@ -1802,6 +1880,12 @@
                 <!-- 产品图片将在这里动态加载 -->
             </div>
         </div>
+    </div>
+
+    <!-- 全屏图片查看器 -->
+    <div id="fullscreenViewer" class="fullscreen-viewer" onclick="closeFullscreen()">
+        <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
+        <img id="fullscreenImage" src="" alt="">
     </div>
 
     <script>
@@ -2042,21 +2126,21 @@
             // 生成新的模态框布局  
             modalBody.innerHTML = `
                 <div class="product-gallery">
+                    <div class="gallery-main">
+                        <img src="${images[0].src}" alt="${images[0].title}" id="mainImage" onclick="openFullscreen('${images[0].src}')">
+                        <h3 id="mainTitle">${images[0].title}</h3>
+                        <div class="product-info">点击图片全屏查看，点击下方缩略图切换产品</div>
+                    </div>
                     <div class="gallery-sidebar">
                         <h3>${productType}系列</h3>
                         <div class="sidebar-content">
                             ${images.map((img, index) => `
-                                <div class="gallery-item ${index === 0 ? 'active' : ''}" onclick="selectImage(${index})">
-                                    <img src="${img.src}" alt="${img.title}" loading="lazy">
+                                <div class="gallery-item ${index === 0 ? 'active' : ''}" onclick="selectImageMobile(${index})">
+                                    <img src="${img.src}" alt="${img.title}" loading="lazy" onclick="openFullscreen('${img.src}')">
                                     <h4>${img.title}</h4>
                                 </div>
                             `).join('')}
                         </div>
-                    </div>
-                    <div class="gallery-main">
-                        <img src="${images[0].src}" alt="${images[0].title}" id="mainImage">
-                        <h3 id="mainTitle">${images[0].title}</h3>
-                        <div class="product-info">点击左侧产品预览查看其他款式</div>
                     </div>
                 </div>
             `;
@@ -2081,6 +2165,42 @@
                     item.classList.remove('active');
                 }
             });
+        }
+
+        // 手机端图片选择函数
+        function selectImageMobile(index) {
+            currentImageIndex = index;
+            const image = currentImages[index];
+            
+            // 更新主图
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = image.src;
+            mainImage.onclick = () => openFullscreen(image.src);
+            document.getElementById('mainTitle').textContent = image.title;
+            
+            // 更新选中状态
+            document.querySelectorAll('.gallery-item').forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // 全屏查看功能
+        function openFullscreen(imageSrc) {
+            const viewer = document.getElementById('fullscreenViewer');
+            const image = document.getElementById('fullscreenImage');
+            image.src = imageSrc;
+            viewer.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFullscreen() {
+            const viewer = document.getElementById('fullscreenViewer');
+            viewer.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         function closeProductModal() {
