@@ -401,6 +401,26 @@
             padding: 0 20px;
         }
 
+        /* 手机端容器宽度优化 */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                padding: 0 15px;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                overflow-x: hidden;
+            }
+            
+            html {
+                width: 100%;
+                overflow-x: hidden;
+            }
+        }
+
         .section-header {
             text-align: center;
             margin-bottom: 80px;
@@ -1267,6 +1287,53 @@
             font-size: 1rem;
         }
 
+        /* 全屏图片查看器 */
+        .fullscreen-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .fullscreen-viewer img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .fullscreen-viewer .close-fullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .fullscreen-viewer .close-fullscreen:hover,
+        .fullscreen-viewer .close-fullscreen:active {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
         @media (max-width: 768px) {
             .hero-content {
                 grid-template-columns: 1fr;
@@ -1357,69 +1424,56 @@
                 font-size: 1.8rem;
             }
 
-            /* 手机端产品画廊优化 */
-            .product-gallery {
-                grid-template-columns: 1fr !important;
-            }
-
-            .gallery-sidebar {
-                order: 2;
-            }
-
-            .gallery-main {
-                order: 1;
-                margin-bottom: 30px;
-            }
-
-            .sidebar-content {
+            /* 手机端产品画廊重新设计 */
+            .mobile-gallery-grid {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
                 gap: 15px !important;
+                padding: 20px 0 !important;
+                max-height: 60vh !important;
+                overflow-y: auto !important;
             }
 
-            .gallery-item {
-                padding: 10px !important;
-                cursor: pointer;
+            .mobile-gallery-item {
+                background: #f8fafc !important;
+                border-radius: 15px !important;
+                padding: 15px !important;
+                text-align: center !important;
+                cursor: pointer !important;
+                transition: all 0.3s ease !important;
+                border: 2px solid transparent !important;
             }
 
-            .gallery-item img {
+            .mobile-gallery-item:active {
+                transform: scale(0.95) !important;
+                border-color: #2563EB !important;
+            }
+
+            .mobile-gallery-item img {
                 width: 100% !important;
                 height: 120px !important;
                 object-fit: cover !important;
                 border-radius: 10px !important;
-                transition: transform 0.3s ease !important;
+                margin-bottom: 10px !important;
             }
 
-            .gallery-item:hover img {
-                transform: scale(1.05) !important;
-            }
-
-            .gallery-item h4 {
-                font-size: 0.8rem !important;
-                margin-top: 8px !important;
-                line-height: 1.2 !important;
+            .mobile-gallery-item h4 {
+                font-size: 0.85rem !important;
+                color: #374151 !important;
+                font-weight: 600 !important;
+                line-height: 1.3 !important;
+                margin: 0 !important;
             }
 
             /* 手机端触摸优化 */
-            .gallery-item, .gallery-main img {
-                -webkit-tap-highlight-color: transparent;
-                touch-action: manipulation;
+            .mobile-gallery-item {
+                -webkit-tap-highlight-color: transparent !important;
+                touch-action: manipulation !important;
             }
 
-            .gallery-item {
-                position: relative;
-            }
-
-            .gallery-item.active::after {
-                content: '';
-                position: absolute;
-                top: 5px;
-                left: 5px;
-                right: 5px;
-                bottom: 5px;
-                border: 3px solid #2563EB;
-                border-radius: 10px;
-                pointer-events: none;
+            /* 隐藏原有的画廊布局 */
+            .product-gallery {
+                display: none !important;
             }
 
             /* 提升手机端按钮点击区域 */
@@ -1431,6 +1485,38 @@
 
             .contact-item {
                 min-height: 80px !important;
+            }
+
+            /* 模态框内容优化 */
+            .modal-content {
+                max-height: 85vh !important;
+                overflow: hidden !important;
+            }
+
+            .modal-header {
+                padding-bottom: 15px !important;
+                margin-bottom: 15px !important;
+            }
+
+            .modal-title {
+                font-size: 1.5rem !important;
+            }
+
+            /* 手机端全屏优化 */
+            .fullscreen-viewer {
+                padding: 10px !important;
+            }
+            
+            .fullscreen-viewer .close-fullscreen {
+                top: 15px !important;
+                right: 15px !important;
+                width: 45px !important;
+                height: 45px !important;
+                font-size: 1.8rem !important;
+            }
+            
+            .fullscreen-viewer img {
+                border-radius: 5px !important;
             }
 
             .product-gallery {
@@ -2123,27 +2209,49 @@
             currentImages = images;
             currentImageIndex = 0;
             
-            // 生成新的模态框布局  
-            modalBody.innerHTML = `
-                <div class="product-gallery">
-                    <div class="gallery-main">
-                        <img src="${images[0].src}" alt="${images[0].title}" id="mainImage" onclick="openFullscreen('${images[0].src}')">
-                        <h3 id="mainTitle">${images[0].title}</h3>
-                        <div class="product-info">点击图片全屏查看，点击下方缩略图切换产品</div>
-                    </div>
-                    <div class="gallery-sidebar">
-                        <h3>${productType}系列</h3>
-                        <div class="sidebar-content">
+            // 检测是否为手机设备
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // 手机端：纯缩略图网格布局
+                modalBody.innerHTML = `
+                    <div class="mobile-gallery-container">
+                        <p style="text-align: center; color: #666; margin-bottom: 15px; font-size: 0.9rem;">
+                            点击图片全屏查看 · 共${images.length}张图片
+                        </p>
+                        <div class="mobile-gallery-grid">
                             ${images.map((img, index) => `
-                                <div class="gallery-item ${index === 0 ? 'active' : ''}" onclick="selectImageMobile(${index})">
-                                    <img src="${img.src}" alt="${img.title}" loading="lazy" onclick="openFullscreen('${img.src}')">
+                                <div class="mobile-gallery-item" onclick="openFullscreen('${img.src}')">
+                                    <img src="${img.src}" alt="${img.title}" loading="lazy">
                                     <h4>${img.title}</h4>
                                 </div>
                             `).join('')}
                         </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else {
+                // 桌面端：保持原有布局
+                modalBody.innerHTML = `
+                    <div class="product-gallery">
+                        <div class="gallery-main">
+                            <img src="${images[0].src}" alt="${images[0].title}" id="mainImage" onclick="openFullscreen('${images[0].src}')">
+                            <h3 id="mainTitle">${images[0].title}</h3>
+                            <div class="product-info">点击图片全屏查看，点击左侧缩略图切换产品</div>
+                        </div>
+                        <div class="gallery-sidebar">
+                            <h3>${productType}系列</h3>
+                            <div class="sidebar-content">
+                                ${images.map((img, index) => `
+                                    <div class="gallery-item ${index === 0 ? 'active' : ''}" onclick="selectImage(${index})">
+                                        <img src="${img.src}" alt="${img.title}" loading="lazy">
+                                        <h4>${img.title}</h4>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
             
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
