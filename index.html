@@ -315,6 +315,34 @@
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             max-width: 400px;
+            position: relative;
+            padding: 30px;
+            border-radius: 25px;
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%),
+                url("product_pics/00公司实景图片/公司门牌.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .product-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border-radius: 25px;
+            z-index: 1;
+        }
+        
+        .product-showcase > .product-card {
+            position: relative;
+            z-index: 2;
         }
 
         .product-card {
@@ -611,6 +639,111 @@
             .company-interior {
                 max-width: 100%;
             }
+
+            /* 公司实景展示响应式 */
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .gallery-section {
+                margin-bottom: 40px;
+            }
+            
+            .section-title-mini {
+                font-size: 1.5rem;
+            }
+            
+            .gallery-image {
+                height: 200px;
+            }
+
+            /* 产品汇总响应式 */
+            .overview-container {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .overview-left,
+            .overview-right {
+                flex: 1;
+            }
+
+            .overview-image {
+                height: auto;
+            }
+            
+            .overview-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* 公司实景展示区域样式 */
+        .company-gallery {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .gallery-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title-mini {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title-mini::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+            border-radius: 2px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .gallery-grid.single-office {
+            grid-template-columns: 1fr;
+            max-width: 600px;
+            margin: 40px auto 0;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
         }
 
         /* 产品汇总区域 */
@@ -618,15 +751,50 @@
             background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
         }
 
+        .overview-container {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .overview-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .overview-left {
+            flex: 2;
+            min-width: 0;
+        }
+
+        .overview-right {
+            flex: 3;
+            min-width: 0;
+        }
+
         .overview-image {
-            max-width: 100%;
+            width: 100%;
+            height: auto;
             border-radius: 25px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
             transition: transform 0.3s ease;
+            border: none;
+            background: transparent;
+            display: block;
         }
 
         .overview-image:hover {
             transform: scale(1.02);
+        }
+
+        .overview-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-top: 20px;
         }
 
         /* 产品展示区域 - 丰富颜色方案 */
@@ -799,6 +967,25 @@
 
         .series-shopping .product-title {
             color: #0f766e;
+        }
+
+        /* 保温袋系列样式 */
+        .series-insulated {
+            border-color: #f59e0b;
+            background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+        }
+
+        .series-insulated:hover {
+            border-color: #d97706;
+            box-shadow: 0 25px 50px rgba(245, 158, 11, 0.2);
+        }
+
+        .series-insulated .product-icon {
+            color: #f59e0b;
+        }
+
+        .series-insulated .product-title {
+            color: #d97706;
         }
 
         .product-icon {
@@ -1564,6 +1751,86 @@
         </div>
     </section>
 
+    <!-- 公司实景综合展示区域 -->
+    <section class="company-gallery section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">公司实景</h2>
+                <p class="section-subtitle">现代化生产环境，专业团队实力展现</p>
+            </div>
+            
+            <!-- 生产车间展示 -->
+            <div class="gallery-section">
+                <div class="section-title-mini">生产车间</div>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/生产车间展示/生产车间1.png" alt="生产车间1" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/生产车间展示/生产车间2.png" alt="生产车间2" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/生产车间展示/生产车间3.png" alt="生产车间3" class="gallery-image">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 样板车间展示 -->
+            <div class="gallery-section">
+                <div class="section-title-mini">样板车间</div>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样板车间展示/样板车间1.jpg" alt="样板车间1" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样板车间展示/样板车间2.jpg" alt="样板车间2" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样板车间展示/样板车间3.jpg" alt="样板车间3" class="gallery-image">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 样品间展示 -->
+            <div class="gallery-section">
+                <div class="section-title-mini">样品间展示</div>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区1.jpg" alt="样品间展示区1" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区2.jpg" alt="样品间展示区2" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区3.jpg" alt="样品间展示区3" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区4.jpg" alt="样品间展示区4" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区5.jpg" alt="样品间展示区5" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区6.jpg" alt="样品间展示区6" class="gallery-image">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区7.jpg" alt="样品间展示区7" class="gallery-image">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 办公区展示 -->
+            <div class="gallery-section">
+                <div class="section-title-mini">办公区</div>
+                <div class="gallery-grid single-office">
+                    <div class="gallery-item">
+                        <img src="product_pics/00公司实景图片/办公区.jpg" alt="办公区" class="gallery-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- 产品汇总展示区域 -->
     <section class="product-overview section">
         <div class="container">
@@ -1571,8 +1838,15 @@
                 <h2 class="section-title">产品总览</h2>
                 <p class="section-subtitle">一张图了解我们的主营产品</p>
             </div>
-            <div style="text-align: center;">
-                <img src="product_pics/02产品汇总介绍图/公司产品汇总图.png" alt="公司产品汇总图" class="overview-image">
+            <div class="overview-container">
+                <div class="overview-item overview-left">
+                    <img src="product_pics/02产品汇总介绍图/公司产品汇总图2.png" alt="公司产品汇总图2" class="overview-image">
+                    <h3 class="overview-title">经典产品系列</h3>
+                </div>
+                <div class="overview-item overview-right">
+                    <img src="product_pics/02产品汇总介绍图/公司产品汇总图.png" alt="公司产品汇总图" class="overview-image">
+                    <h3 class="overview-title">全新产品系列</h3>
+                </div>
             </div>
         </div>
     </section>
@@ -1669,6 +1943,18 @@
                         <span class="feature-tag">可折叠</span>
                     </div>
                 </div>
+                <div class="product-item series-insulated" onclick="openProductModal('保温袋')">
+                    <div class="product-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3 class="product-title">保温袋</h3>
+                    <p class="product-desc">专业保温隔热，保鲜食物温度</p>
+                    <div class="product-features">
+                        <span class="feature-tag">保温保鲜</span>
+                        <span class="feature-tag">密封防漏</span>
+                        <span class="feature-tag">轻便实用</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1697,21 +1983,11 @@
                             <div class="highlight-item">
                                 <i class="fas fa-calendar-alt"></i>
                                 <span>成立20周年</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-users"></i>
-                                <span>团队共庆</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-rocket"></i>
-                                <span>展望未来</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
+
+
 
     <!-- 手稿图特色展示区域 -->
     <section class="design-showcase section">
