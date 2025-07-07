@@ -21,6 +21,7 @@
             line-height: 1.6;
             color: #333;
             background: #ffffff;
+            overflow-x: hidden; /* 防止移动端横向滚动条 */
         }
 
         /* 导航栏样式增强 - 顶部蓝色，滚动时毛玻璃风格 */
@@ -57,6 +58,10 @@
             text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
+        .navbar.scrolled .mobile-menu-toggle span {
+            background-color: #1e3a8a; /* Match scrolled logo color */
+        }
+
         .navbar.scrolled .nav-logo h2::after {
             background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
         }
@@ -88,6 +93,11 @@
             position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            padding: 10px 0;
         }
 
         .nav-logo:hover {
@@ -101,14 +111,15 @@
             color: white;
             text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             position: relative;
-            margin-bottom: 2px;
+            margin: 0;
+            line-height: 1.2;
             transition: all 0.3s ease;
         }
 
         .nav-logo h2::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -2px;
             left: 0;
             width: 100%;
             height: 2px;
@@ -131,6 +142,8 @@
             text-align: center;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
             transition: all 0.3s ease;
+            margin-top: 2px;
+            line-height: 1.2;
         }
 
         /* 导航菜单美化 */
@@ -138,10 +151,17 @@
             display: flex;
             list-style: none;
             gap: 20px;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            align-items: center;
         }
 
         .nav-menu li {
             position: relative;
+            height: auto;
+            display: flex;
+            align-items: center;
         }
 
         .nav-menu a {
@@ -157,6 +177,9 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
         }
 
         .nav-menu a::before {
@@ -192,7 +215,7 @@
         /* 英雄区域增强 */
         .hero {
             min-height: calc(100vh - 80px);
-            margin-top: 80px;
+            /* margin-top: 80px; */ /* Replaced by padding-top on #page-wrapper */
             background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%);
             display: flex;
             align-items: center;
@@ -722,6 +745,64 @@
             margin: 40px auto 0;
         }
 
+        /* 响应式设计：确保图片在窄屏幕上保持合适比例 */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+            
+            .gallery-image {
+                height: 200px;
+            }
+            
+            .section-title-mini {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .gallery-image {
+                height: 180px;
+            }
+            
+            .gallery-section {
+                margin-bottom: 40px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .gallery-image {
+                height: 160px;
+            }
+        }
+
+        /* 办公区响应式设计 */
+        @media (max-width: 768px) {
+            .gallery-grid.single-office {
+                max-width: 100%;
+                margin: 20px auto 0;
+            }
+        }
+
         .gallery-item {
             background: white;
             border-radius: 20px;
@@ -729,6 +810,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             cursor: pointer;
+            aspect-ratio: 16/9;
         }
 
         .gallery-item:hover {
@@ -738,7 +820,7 @@
 
         .gallery-image {
             width: 100%;
-            height: 250px;
+            height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
@@ -1041,11 +1123,26 @@
         .product-preview {
             position: relative;
             width: 100%;
-            height: 150px;
+            /* 使用固定宽高比，避免随卡片拉伸而变形 */
+            aspect-ratio: 4 / 3; /* 4:3 更适合横向展示，亦可改为 1 / 1 */
+            height: auto;        /* 交由 aspect-ratio 决定高度 */
             margin-bottom: 20px;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 针对旧浏览器的回退方案 */
+        @supports not (aspect-ratio: 1 / 1) {
+            .product-preview::before {
+                content: "";
+                display: block;
+                padding-top: 75%; /* 4/3=75% */
+            }
+            .preview-image {
+                position: absolute;
+                inset: 0;
+            }
         }
 
         .preview-image {
@@ -1383,9 +1480,10 @@
             background: white;
             margin: 2% auto;
             border-radius: 25px;
-            width: 95%;
-            max-width: 1200px;
-            max-height: 90vh;
+            width: 96%;          /* 更宽 */
+            max-width: none;     /* 允许占满大屏 */
+            height: 95vh;        /* 占用更多竖向空间 */
+            max-height: 95vh;
             position: relative;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             display: flex;
@@ -1445,13 +1543,13 @@
 
         .product-gallery {
             display: flex;
-            height: 600px;
+            height: 75vh; /* 随视口变化，占用更多区域 */
             gap: 10px;
         }
 
         .gallery-sidebar {
-            width: 520px;
-            min-width: 300px;
+            width: 28%;          /* 百分比宽度更适配 */
+            min-width: 260px;
             background: #f8fafc;
             border-radius: 15px;
             padding: 20px;
@@ -1478,7 +1576,7 @@
 
         .sidebar-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr; /* 单列，避免文字被裁剪 */
             gap: 15px;
         }
 
@@ -1492,6 +1590,7 @@
             background: white;
             border: 2px solid transparent;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            align-items: center;
         }
 
         .gallery-item:hover {
@@ -1511,10 +1610,18 @@
 
         .gallery-item img {
             width: 100%;
-            height: 160px;
+            aspect-ratio: 1/1;   /* 保持正方形比例 */
+            height: auto;
             object-fit: cover;
             border-radius: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+        }
+
+        @supports not (aspect-ratio: 1/1) {
+            .gallery-item img {
+                position: absolute;
+                inset: 0;
+            }
         }
 
         .gallery-item h4 {
@@ -1717,12 +1824,12 @@
             .product-gallery {
                 gap: 10px;
             }
-
+            
             .gallery-sidebar {
                 width: 100%;
                 height: auto;
-                min-height: 22vh;
-                max-height: 22vh;
+                min-height: 30vh; /* 放大显示区域 */
+                max-height: 30vh;
                 margin-bottom: 8px;
                 min-width: auto;
                 overflow-y: auto;
@@ -1752,8 +1859,27 @@
             }
 
             .gallery-item img {
-                height: 70px;
-                margin-bottom: 4px;
+                width: 100%;
+                aspect-ratio: 1 / 1; /* 保持正方形缩略图 */
+                height: auto;        /* 让浏览器按比例计算高度 */
+                margin-bottom: 6px;
+                object-fit: cover;
+            }
+
+            /* 兼容不支持 aspect-ratio 的旧浏览器 */
+            @supports not (aspect-ratio: 1 / 1) {
+                .gallery-item img {
+                    height: auto;
+                }
+                .gallery-item::before {
+                    content: "";
+                    display: block;
+                    padding-top: 100%;
+                }
+                .gallery-item img {
+                    position: absolute;
+                    inset: 0;
+                }
             }
 
             .gallery-item h4 {
@@ -1848,41 +1974,38 @@
             
             .nav-menu {
                 position: fixed;
-                top: 80px;
-                left: -100%;
+                top: 70px; /* 导航栏底部 */
+                left: 0;
                 width: 100%;
-                height: calc(100vh - 80px);
-                background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
-                flex-direction: column;
-                justify-content: flex-start;
+                flex-direction: row; /* 横向排列 */
+                flex-wrap: nowrap;
+                justify-content: space-around;
                 align-items: center;
-                padding-top: 50px;
-                transition: left 0.3s ease;
-                z-index: 1000;
-                backdrop-filter: blur(10px);
+                gap: 0;
+                background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+                padding: 0; /* 收起时无内边距，避免突出的白条 */
+                overflow: hidden;
+                max-height: 0;
+                transition: max-height 0.35s ease, padding 0.35s ease;
+                box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+                z-index: 999;
             }
 
             .nav-menu.active {
-                left: 0;
+                padding: 10px 0; /* 展开时加内边距 */
+                max-height: 60px; /* 单行高度 */
             }
 
             .nav-menu li {
-                margin: 20px 0;
+                margin: 0 6px;
             }
 
             .nav-menu a {
-                font-size: 1.3rem;
-                padding: 15px 30px;
-                width: 200px;
+                font-size: 0.95rem;
+                padding: 8px 14px;
+                width: auto;
                 text-align: center;
-                border-radius: 30px;
-                background: rgba(255, 255, 255, 0.1);
-                border: 2px solid rgba(255, 255, 255, 0.3);
-            }
-
-            .nav-menu a:hover {
-                background: rgba(255, 255, 255, 0.2);
-                transform: translateY(-3px);
+                border-radius: 20px;
             }
 
             .mobile-menu-toggle {
@@ -2226,6 +2349,155 @@
             text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             line-height: 1.2;
         }
+
+        /* 公司实景图片专属规则：确保在任意列数下完整填充父容器 */
+        .company-gallery .gallery-item {
+            position: relative;
+            aspect-ratio: 16/9;
+        }
+
+        .company-gallery .gallery-item img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            margin: 0;
+            border-radius: 0;
+        }
+
+        /* --- 移动端导航最终布局：导航菜单常驻显示在导航栏下方 --- */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle { display: none !important; }
+
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px 20px 0; /* 更紧凑 */
+            }
+
+            /* 调整 Logo 在移动端的大小和间距 */
+            .nav-logo h2 { font-size: 2rem; margin-bottom: 2px; }
+            .nav-logo span { font-size: 0.8rem; }
+
+            .nav-menu {
+                background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%); /* 与导航一致 */
+                padding: 6px 0 !important; /* 上下留白 */
+                margin-top: 6px;
+                border: none;
+            }
+
+            .nav-menu li { margin: 0 8px !important; }
+
+            .nav-menu a {
+                font-size: 0.9rem !important;
+                padding: 6px 12px !important;
+                border-radius: 18px !important;
+            }
+
+            /* 调整 Hero 顶部留白，避免被导航遮挡 */
+            .hero {
+                margin-top: 120px;            /* logo(60) + 菜单(60) */
+                min-height: calc(100vh - 120px);
+            }
+        }
+
+        /* --- Mobile side drawer nav (2025-07) --- */
+        @media (max-width: 768px) {
+            /* 显示汉堡按钮 */
+            .mobile-menu-toggle {
+                display: flex !important;
+                position: absolute;
+                top: 18px;
+                right: 22px;
+            }
+
+            /* 确保容器为相对定位，用于定位汉堡按钮 */
+            .nav-container {
+                position: relative;
+                height: 70px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center; /* 居中Logo */
+                padding: 0 20px;
+            }
+
+            /* 侧边抽屉导航 */
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0; /* 保持左侧 */
+                width: max-content; /* 依据内容自适应 */
+                min-width: 80px;    /* 最小宽度保证按钮完整 */
+                max-width: 75vw;     /* 防止过宽 */
+                height: 100vh;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 90px 16px 40px;
+                gap: 18px;
+                background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+                transform: translateX(-110%);
+                transition: transform 0.3s ease;
+                overflow-y: auto;
+                box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+                z-index: 999;
+                max-height: none !important; /* 覆盖之前的高度限制 */
+            }
+
+            .nav-menu.active {
+                transform: translateX(0);
+            }
+
+            .nav-menu li {
+                width: 100%;
+                margin: 0;
+            }
+
+            .nav-menu a {
+                width: auto; /* 自动宽度 */
+                font-size: 1rem;
+                padding: 10px 18px;
+                text-align: left;
+                border-radius: 9999px;
+            }
+        }
+
+        /* 遮罩层，用于点击关闭侧滑菜单 */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 998;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #page-wrapper {
+            position: relative;
+            background: #ffffff;
+            transition: transform 0.3s ease;
+            z-index: 1;
+            padding-top: 0; /* 由JS赋值 */
+        }
+
+        /* 手机抽屉导航（推开式）*/
+        @media (max-width: 768px) {
+            /* 侧滑菜单 override hero spacing */
+            .hero {
+                margin-top: 0 !important;
+                min-height: calc(100vh - 70px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -2250,512 +2522,515 @@
             </div>
         </div>
     </nav>
+    <div id="navOverlay" class="nav-overlay" onclick="closeMobileMenu()"></div>
 
-    <!-- 英雄区域 -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    <span class="split-text" data-text="创新设计">创新设计</span><br>
-                    <span class="split-text" data-text="品质箱包">品质箱包</span>
-                </h1>
-                <p class="hero-description">专业制造高品质多功能收纳包、旅行包、化妆包、运动包等系列产品</p>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <h3>20+</h3>
-                        <p>年行业经验</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>1000+</h3>
-                        <p>产品款式</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>50+</h3>
-                        <p>合作伙伴</p>
-                    </div>
-                </div>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="scrollToSection('products')">了解产品</button>
-                    <button class="btn-secondary" onclick="scrollToSection('contact')">联系我们</button>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="product-showcase">
-                    <div class="product-card" onclick="scrollToSection('products')">
-                        <div class="card-icon">
-                            <i class="fas fa-box"></i>
+    <div id="page-wrapper">
+        <!-- 英雄区域 -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="split-text" data-text="创新设计">创新设计</span><br>
+                        <span class="split-text" data-text="品质箱包">品质箱包</span>
+                    </h1>
+                    <p class="hero-description">专业制造高品质多功能收纳包、旅行包、化妆包、运动包等系列产品</p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <h3>20+</h3>
+                            <p>年行业经验</p>
                         </div>
-                        <h4>多功能收纳包</h4>
-                    </div>
-                    <div class="product-card" onclick="scrollToSection('products')">
-                        <div class="card-icon">
-                            <i class="fas fa-suitcase"></i>
+                        <div class="stat-item">
+                            <h3>1000+</h3>
+                            <p>产品款式</p>
                         </div>
-                        <h4>旅行包</h4>
-                    </div>
-                    <div class="product-card" onclick="scrollToSection('products')">
-                        <div class="card-icon">
-                            <i class="fas fa-dumbbell"></i>
-                        </div>
-                        <h4>运动健身包</h4>
-                    </div>
-                    <div class="product-card" onclick="scrollToSection('products')">
-                        <div class="card-icon">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h4>化妆包</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 关于我们 -->
-    <section id="about" class="about section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">关于我们</h2>
-                <p class="section-subtitle">深耕箱包行业，铸就品质传奇</p>
-            </div>
-            <div class="about-content">
-                <h3>阳江市益高箱包有限公司</h3>
-                <p class="company-info">成立于2008年（前身2004年成立）</p>
-                <p class="company-desc">20年专业制造经验，成为行业领先的箱包制造商。我们致力于为全球客户提供高品质、创新设计的箱包产品，涵盖多功能收纳包、旅行包、化妆包、运动健身包等多个系列。</p>
-                
-                <!-- 公司实景展示 -->
-                <div class="company-showcase">
-                    <div class="showcase-content">
-                        <div class="showcase-text">
-                            <h4>专业生产环境</h4>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们拥有现代化的生产设施和专业的技术团队，每一件产品都经过精心制作，确保品质卓越。</p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从原材料选择到成品出厂，我们严格把控每一个环节，为客户提供最优质的箱包产品。</p>
-                        </div>
-                        <div class="showcase-image">
-                            <img src="product_pics/00公司实景图片/公司内部图片.jpg" alt="公司内部生产环境" class="company-interior">
+                        <div class="stat-item">
+                            <h3>50+</h3>
+                            <p>合作伙伴</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 公司实景综合展示区域 -->
-    <section class="company-gallery section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">公司实景</h2>
-                <p class="section-subtitle">现代化生产环境，专业团队实力展现</p>
-            </div>
-            
-            <!-- 生产车间展示 -->
-            <div class="gallery-section">
-                <div class="section-title-mini">生产车间</div>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/生产车间展示/生产车间1.png" alt="生产车间1" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/生产车间展示/生产车间2.png" alt="生产车间2" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/生产车间展示/生产车间3.png" alt="生产车间3" class="gallery-image">
+                    <div class="hero-buttons">
+                        <button class="btn-primary" onclick="scrollToSection('products')">了解产品</button>
+                        <button class="btn-secondary" onclick="scrollToSection('contact')">联系我们</button>
                     </div>
                 </div>
-            </div>
-
-            <!-- 样板车间展示 -->
-            <div class="gallery-section">
-                <div class="section-title-mini">样板车间</div>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样板车间展示/样板车间1.jpg" alt="样板车间1" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样板车间展示/样板车间2.jpg" alt="样板车间2" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样板车间展示/样板车间3.jpg" alt="样板车间3" class="gallery-image">
-                    </div>
-                </div>
-            </div>
-
-            <!-- 样品间展示 -->
-            <div class="gallery-section">
-                <div class="section-title-mini">样品间展示</div>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区1.jpg" alt="样品间展示区1" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区2.jpg" alt="样品间展示区2" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区3.jpg" alt="样品间展示区3" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区4.jpg" alt="样品间展示区4" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区5.jpg" alt="样品间展示区5" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区6.jpg" alt="样品间展示区6" class="gallery-image">
-                    </div>
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/样品间展示/样品间展示区7.jpg" alt="样品间展示区7" class="gallery-image">
-                    </div>
-                </div>
-            </div>
-
-            <!-- 办公区展示 -->
-            <div class="gallery-section">
-                <div class="section-title-mini">办公区</div>
-                <div class="gallery-grid single-office">
-                    <div class="gallery-item">
-                        <img src="product_pics/00公司实景图片/办公区.jpg" alt="办公区" class="gallery-image">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 产品汇总展示区域 -->
-    <section class="product-overview section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">产品总览</h2>
-                <p class="section-subtitle">了解我们的原创设计/代加工产品</p>
-            </div>
-            <div class="overview-container">
-                <div class="overview-item overview-left">
-                    <img src="product_pics/02产品汇总介绍图/公司产品汇总图2.png" alt="公司产品汇总图2" class="overview-image">
-                    <h3 class="overview-title">经典产品系列</h3>
-                </div>
-                <div class="overview-item overview-right">
-                    <img src="product_pics/02产品汇总介绍图/公司产品汇总图.png" alt="公司产品汇总图" class="overview-image">
-                    <h3 class="overview-title">全新产品系列</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 产品展示 -->
-    <section id="products" class="products section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">产品展示</h2>
-                <p class="section-subtitle">多元化产品线，满足不同需求</p>
-                <p class="section-subtitle highlight-text" style="color: #FF6B35; font-weight: 700; font-family: 'Microsoft YaHei', sans-serif; text-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);">✨ 点击具体分类了解更多款式 ✨</p>
-            </div>
-            </div>
-            <div class="products-grid">
-                <div class="product-item series-storage" onclick="openProductModal('多功能收纳包')">
-                    <div class="product-preview">
-                        <img src="product_pics/多功能收纳包/多功能收纳包1.jpg" alt="多功能收纳包预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
+                <div class="hero-visual">
+                    <div class="product-showcase">
+                        <div class="product-card" onclick="scrollToSection('products')">
+                            <div class="card-icon">
                                 <i class="fas fa-box"></i>
                             </div>
+                            <h4>多功能收纳包</h4>
                         </div>
-                    </div>
-                    <h3 class="product-title">多功能收纳包</h3>
-                    <p class="product-desc">智能分隔设计，让生活更有序</p>
-                    <div class="product-features">
-                        <span class="feature-tag">多隔层</span>
-                        <span class="feature-tag">防水材质</span>
-                        <span class="feature-tag">时尚外观</span>
-                    </div>
-                </div>
-                <div class="product-item series-travel" onclick="openProductModal('旅行包')">
-                    <div class="product-preview">
-                        <img src="product_pics/旅行包/旅行包1.jpg" alt="旅行包预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
+                        <div class="product-card" onclick="scrollToSection('products')">
+                            <div class="card-icon">
                                 <i class="fas fa-suitcase"></i>
                             </div>
+                            <h4>旅行包</h4>
                         </div>
-                    </div>
-                    <h3 class="product-title">旅行包</h3>
-                    <p class="product-desc">轻便耐用，让每次旅行更加便捷</p>
-                    <div class="product-features">
-                        <span class="feature-tag">大容量</span>
-                        <span class="feature-tag">防水防刮</span>
-                        <span class="feature-tag">人性化设计</span>
-                    </div>
-                </div>
-                <div class="product-item series-cosmetic" onclick="openProductModal('化妆包')">
-                    <div class="product-preview">
-                        <img src="product_pics/化妆包/化妆包1.jpg" alt="化妆包预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
-                                <i class="fas fa-palette"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 class="product-title">化妆包</h3>
-                    <p class="product-desc">精致收纳，展现您的优雅品味</p>
-                    <div class="product-features">
-                        <span class="feature-tag">分格设计</span>
-                        <span class="feature-tag">防水面料</span>
-                        <span class="feature-tag">便携美观</span>
-                    </div>
-                </div>
-                <div class="product-item series-sport" onclick="openProductModal('运动多功能包')">
-                    <div class="product-preview">
-                        <img src="product_pics/运动多功能包/运动多功能包1.jpg" alt="运动多功能包预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
+                        <div class="product-card" onclick="scrollToSection('products')">
+                            <div class="card-icon">
                                 <i class="fas fa-dumbbell"></i>
                             </div>
+                            <h4>运动健身包</h4>
                         </div>
-                    </div>
-                    <h3 class="product-title">运动多功能包</h3>
-                    <p class="product-desc">专业运动装备，激发运动潜能</p>
-                    <div class="product-features">
-                        <span class="feature-tag">透气排汗</span>
-                        <span class="feature-tag">耐磨材质</span>
-                        <span class="feature-tag">专业设计</span>
-                    </div>
-                </div>
-                <div class="product-item series-backpack" onclick="openProductModal('背包')">
-                    <div class="product-preview">
-                        <img src="product_pics/背包/背包1.jpg" alt="背包预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
-                                <i class="fas fa-school"></i>
+                        <div class="product-card" onclick="scrollToSection('products')">
+                            <div class="card-icon">
+                                <i class="fas fa-palette"></i>
                             </div>
+                            <h4>化妆包</h4>
                         </div>
-                    </div>
-                    <h3 class="product-title">背包</h3>
-                    <p class="product-desc">时尚舒适，都市出行的理想伴侣</p>
-                    <div class="product-features">
-                        <span class="feature-tag">减压背负</span>
-                        <span class="feature-tag">多功能分层</span>
-                        <span class="feature-tag">时尚外观</span>
-                    </div>
-                </div>
-                <div class="product-item series-crossbody" onclick="openProductModal('斜挎包')">
-                    <div class="product-preview">
-                        <img src="product_pics/斜挎包/斜挎包1.jpg" alt="斜挎包预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
-                                <i class="fas fa-user-tie"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 class="product-title">斜挎包</h3>
-                    <p class="product-desc">商务休闲两相宜，品质生活首选</p>
-                    <div class="product-features">
-                        <span class="feature-tag">商务风格</span>
-                        <span class="feature-tag">优质皮革</span>
-                        <span class="feature-tag">实用便携</span>
-                    </div>
-                </div>
-                <div class="product-item series-shopping" onclick="openProductModal('购物袋')">
-                    <div class="product-preview">
-                        <img src="product_pics/购物袋/购物袋2.jpg" alt="购物袋预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
-                                <i class="fas fa-shopping-bag"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 class="product-title">购物袋</h3>
-                    <p class="product-desc">环保实用，绿色生活的完美选择</p>
-                    <div class="product-features">
-                        <span class="feature-tag">环保材料</span>
-                        <span class="feature-tag">结实耐用</span>
-                        <span class="feature-tag">可折叠</span>
-                    </div>
-                </div>
-                <div class="product-item series-insulated" onclick="openProductModal('保温袋')">
-                    <div class="product-preview">
-                        <img src="product_pics/保温袋/保温袋1.png" alt="保温袋预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
-                                <i class="fas fa-thermometer-half"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 class="product-title">保温袋</h3>
-                    <p class="product-desc">专业保温隔热，保鲜食物温度</p>
-                    <div class="product-features">
-                        <span class="feature-tag">保温保鲜</span>
-                        <span class="feature-tag">密封防漏</span>
-                        <span class="feature-tag">轻便实用</span>
-                    </div>
-                </div>
-                <div class="product-item series-pen" onclick="openProductModal('笔袋')">
-                    <div class="product-preview">
-                        <img src="product_pics/笔袋/笔袋1.JPG" alt="笔袋预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
-                                <i class="fas fa-pen"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 class="product-title">笔袋</h3>
-                    <p class="product-desc">文具收纳专家，学习办公好帮手</p>
-                    <div class="product-features">
-                        <span class="feature-tag">多层分隔</span>
-                        <span class="feature-tag">结构紧凑</span>
-                        <span class="feature-tag">方便携带</span>
-                    </div>
-                </div>
-                <div class="product-item series-laptop" onclick="openProductModal('电脑包')">
-                    <div class="product-preview">
-                        <img src="product_pics/电脑包/电脑包1.jpg" alt="电脑包预览" class="preview-image">
-                        <div class="preview-overlay">
-                            <div class="product-icon">
-                                <i class="fas fa-laptop"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 class="product-title">电脑包</h3>
-                    <p class="product-desc">专业电脑保护，商务出行必备</p>
-                    <div class="product-features">
-                        <span class="feature-tag">防震保护</span>
-                        <span class="feature-tag">防水面料</span>
-                        <span class="feature-tag">商务风格</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 公司活动展示区域 -->
-    <section id="company-event" class="company-event section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">公司活动</h2>
-                <p class="section-subtitle">共同成长，共创辉煌</p>
-            </div>
-            <div class="event-content">
-                <div class="event-card">
-                    <div class="event-image">
-                        <img src="product_pics/01公司活动/2025年团年饭&20周年庆/阳江市益高箱包有限公司巳巳如意.png" alt="2025年团年饭&20周年庆邀请函">
-                    </div>
-                    <div class="event-details">
-                        <h3 class="event-title">2025年团年饭 & 20周年庆典</h3>
-                        <p class="event-subtitle">巳巳如意 · 共创未来</p>
-                        <p class="event-description">
-                            在这个特殊的年份，我们迎来了公司成立20周年的重要里程碑。
-                            回首过往，我们从2004年的利诚皮革到2008年的益高箱包，一路走来见证了无数的成长与蜕变。
-                            20年来，我们始终坚持品质第一的理念，不断创新，为客户提供更优质的产品和服务。
-                        </p>
-                        <div class="event-highlights">
-                            <div class="highlight-item">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>成立20周年</span>
+        <!-- 关于我们 -->
+        <section id="about" class="about section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">关于我们</h2>
+                    <p class="section-subtitle">深耕箱包行业，铸就品质传奇</p>
+                </div>
+                <div class="about-content">
+                    <h3>阳江市益高箱包有限公司</h3>
+                    <p class="company-info">成立于2008年（前身2004年成立）</p>
+                    <p class="company-desc">20年专业制造经验，成为行业领先的箱包制造商。我们致力于为全球客户提供高品质、创新设计的箱包产品，涵盖多功能收纳包、旅行包、化妆包、运动健身包等多个系列。</p>
+                    
+                    <!-- 公司实景展示 -->
+                    <div class="company-showcase">
+                        <div class="showcase-content">
+                            <div class="showcase-text">
+                                <h4>专业生产环境</h4>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们拥有现代化的生产设施和专业的技术团队，每一件产品都经过精心制作，确保品质卓越。</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从原材料选择到成品出厂，我们严格把控每一个环节，为客户提供最优质的箱包产品。</p>
                             </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-users"></i>
-                                <span>团队共庆</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-rocket"></i>
-                                <span>展望未来</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-heart"></i>
-                                <span>感恩同行</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-star"></i>
-                                <span>品质传承</span>
-                            </div>
-                            <div class="highlight-item">
-                                <i class="fas fa-trophy"></i>
-                                <span>荣耀时刻</span>
+                            <div class="showcase-image">
+                                <img src="product_pics/00公司实景图片/公司内部图片.jpg" alt="公司内部生产环境" class="company-interior">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-
-
-    <!-- 手稿图特色展示区域 -->
-    <section class="design-showcase section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">设计匠心</h2>
-                <p class="section-subtitle">每一个产品都源于精心的设计手稿</p>
-            </div>
-            <div style="text-align: center;">
-                <img src="product_pics/03产品手稿图（特色展出区域）/手稿图.png" alt="产品设计手稿" class="design-image">
-            </div>
-        </div>
-    </section>
-
-    <!-- 联系我们 -->
-    <section id="contact" class="contact section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">联系我们</h2>
-                <p class="section-subtitle">期待与您合作共赢</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-building"></i>
+        <!-- 公司实景综合展示区域 -->
+        <section class="company-gallery section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">公司实景</h2>
+                    <p class="section-subtitle">现代化生产环境，专业团队实力展现</p>
+                </div>
+                
+                <!-- 生产车间展示 -->
+                <div class="gallery-section">
+                    <div class="section-title-mini">生产车间</div>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/生产车间展示/生产车间1.png" alt="生产车间1" class="gallery-image">
                         </div>
-                        <div class="contact-details">
-                            <h4>公司名称</h4>
-                            <p>阳江市益高箱包有限公司</p>
-                            <p>Topvim</p>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/生产车间展示/生产车间2.png" alt="生产车间2" class="gallery-image">
                         </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>公司地址</h4>
-                            <p>阳江市江城区赤岗一街六号</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>联系电话</h4>
-                            <p>13924396639</p>
-                            <p>0662-3379333</p>
-                            <p>0662-3379338</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>邮箱地址</h4>
-                            <p>ken9939@126.com</p>
-                            <p>lcyj@21cn.net</p>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/生产车间展示/生产车间3.png" alt="生产车间3" class="gallery-image">
                         </div>
                     </div>
                 </div>
-                <div class="wechat-qr">
-                    <h4><i class="fab fa-weixin" style="color: #07c160; margin-right: 10px;"></i>微信联系</h4>
-                    <img src="product_pics/04微信二维码/QR_Code.png" alt="微信二维码" style="width: 220px; height: 220px; border-radius: 15px; margin-bottom: 20px;">
-                    <p style="color: #666; font-size: 0.9rem;">扫码添加微信<br>获取更多产品信息</p>
+
+                <!-- 样板车间展示 -->
+                <div class="gallery-section">
+                    <div class="section-title-mini">样板车间</div>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样板车间展示/样板车间1.jpg" alt="样板车间1" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样板车间展示/样板车间2.jpg" alt="样板车间2" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样板车间展示/样板车间3.jpg" alt="样板车间3" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 样品间展示 -->
+                <div class="gallery-section">
+                    <div class="section-title-mini">样品间展示</div>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样品间展示/样品间展示区1.jpg" alt="样品间展示区1" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样品间展示/样品间展示区2.jpg" alt="样品间展示区2" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样品间展示/样品间展示区3.jpg" alt="样品间展示区3" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样品间展示/样品间展示区4.jpg" alt="样品间展示区4" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样品间展示/样品间展示区5.jpg" alt="样品间展示区5" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样品间展示/样品间展示区6.jpg" alt="样品间展示区6" class="gallery-image">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/样品间展示/样品间展示区7.jpg" alt="样品间展示区7" class="gallery-image">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 办公区展示 -->
+                <div class="gallery-section">
+                    <div class="section-title-mini">办公区</div>
+                    <div class="gallery-grid single-office">
+                        <div class="gallery-item">
+                            <img src="product_pics/00公司实景图片/办公区.jpg" alt="办公区" class="gallery-image">
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="footer">
-        <div class="container">
-            <h3 class="footer-title">Topvim</h3>
-            <p class="footer-subtitle">阳江市益高箱包有限公司</p>
-            <p class="footer-copyright">&copy; 2025 阳江市益高箱包有限公司. 保留所有权利.</p>
-        </div>
-    </footer>
+        <!-- 产品汇总展示区域 -->
+        <section class="product-overview section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">产品总览</h2>
+                    <p class="section-subtitle">了解我们的原创设计/代加工产品</p>
+                </div>
+                <div class="overview-container">
+                    <div class="overview-item overview-left">
+                        <img src="product_pics/02产品汇总介绍图/公司产品汇总图2.png" alt="公司产品汇总图2" class="overview-image">
+                        <h3 class="overview-title">经典产品系列</h3>
+                    </div>
+                    <div class="overview-item overview-right">
+                        <img src="product_pics/02产品汇总介绍图/公司产品汇总图.png" alt="公司产品汇总图" class="overview-image">
+                        <h3 class="overview-title">全新产品系列</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品展示 -->
+        <section id="products" class="products section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">产品展示</h2>
+                    <p class="section-subtitle">多元化产品线，满足不同需求</p>
+                    <p class="section-subtitle highlight-text" style="color: #FF6B35; font-weight: 700; font-family: 'Microsoft YaHei', sans-serif; text-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);">✨ 点击具体分类了解更多款式 ✨</p>
+                </div>
+                </div>
+                <div class="products-grid">
+                    <div class="product-item series-storage" onclick="openProductModal('多功能收纳包')">
+                        <div class="product-preview">
+                            <img src="product_pics/多功能收纳包/多功能收纳包1.jpg" alt="多功能收纳包预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">多功能收纳包</h3>
+                        <p class="product-desc">智能分隔设计，让生活更有序</p>
+                        <div class="product-features">
+                            <span class="feature-tag">多隔层</span>
+                            <span class="feature-tag">防水材质</span>
+                            <span class="feature-tag">时尚外观</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-travel" onclick="openProductModal('旅行包')">
+                        <div class="product-preview">
+                            <img src="product_pics/旅行包/旅行包1.jpg" alt="旅行包预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-suitcase"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">旅行包</h3>
+                        <p class="product-desc">轻便耐用，让每次旅行更加便捷</p>
+                        <div class="product-features">
+                            <span class="feature-tag">大容量</span>
+                            <span class="feature-tag">防水防刮</span>
+                            <span class="feature-tag">人性化设计</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-cosmetic" onclick="openProductModal('化妆包')">
+                        <div class="product-preview">
+                            <img src="product_pics/化妆包/化妆包1.jpg" alt="化妆包预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-palette"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">化妆包</h3>
+                        <p class="product-desc">精致收纳，展现您的优雅品味</p>
+                        <div class="product-features">
+                            <span class="feature-tag">分格设计</span>
+                            <span class="feature-tag">防水面料</span>
+                            <span class="feature-tag">便携美观</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-sport" onclick="openProductModal('运动多功能包')">
+                        <div class="product-preview">
+                            <img src="product_pics/运动多功能包/运动多功能包1.jpg" alt="运动多功能包预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-dumbbell"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">运动多功能包</h3>
+                        <p class="product-desc">专业运动装备，激发运动潜能</p>
+                        <div class="product-features">
+                            <span class="feature-tag">透气排汗</span>
+                            <span class="feature-tag">耐磨材质</span>
+                            <span class="feature-tag">专业设计</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-backpack" onclick="openProductModal('背包')">
+                        <div class="product-preview">
+                            <img src="product_pics/背包/背包1.jpg" alt="背包预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-school"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">背包</h3>
+                        <p class="product-desc">时尚舒适，都市出行的理想伴侣</p>
+                        <div class="product-features">
+                            <span class="feature-tag">减压背负</span>
+                            <span class="feature-tag">多功能分层</span>
+                            <span class="feature-tag">时尚外观</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-crossbody" onclick="openProductModal('斜挎包')">
+                        <div class="product-preview">
+                            <img src="product_pics/斜挎包/斜挎包1.jpg" alt="斜挎包预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">斜挎包</h3>
+                        <p class="product-desc">商务休闲两相宜，品质生活首选</p>
+                        <div class="product-features">
+                            <span class="feature-tag">商务风格</span>
+                            <span class="feature-tag">优质皮革</span>
+                            <span class="feature-tag">实用便携</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-shopping" onclick="openProductModal('购物袋')">
+                        <div class="product-preview">
+                            <img src="product_pics/购物袋/购物袋2.JPG" alt="购物袋预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">购物袋</h3>
+                        <p class="product-desc">环保实用，绿色生活的完美选择</p>
+                        <div class="product-features">
+                            <span class="feature-tag">环保材料</span>
+                            <span class="feature-tag">结实耐用</span>
+                            <span class="feature-tag">可折叠</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-insulated" onclick="openProductModal('保温袋')">
+                        <div class="product-preview">
+                            <img src="product_pics/保温袋/保温袋1.png" alt="保温袋预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">保温袋</h3>
+                        <p class="product-desc">专业保温隔热，保鲜食物温度</p>
+                        <div class="product-features">
+                            <span class="feature-tag">保温保鲜</span>
+                            <span class="feature-tag">密封防漏</span>
+                            <span class="feature-tag">轻便实用</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-pen" onclick="openProductModal('笔袋')">
+                        <div class="product-preview">
+                            <img src="product_pics/笔袋/笔袋1.JPG" alt="笔袋预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-pen"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">笔袋</h3>
+                        <p class="product-desc">文具收纳专家，学习办公好帮手</p>
+                        <div class="product-features">
+                            <span class="feature-tag">多层分隔</span>
+                            <span class="feature-tag">结构紧凑</span>
+                            <span class="feature-tag">方便携带</span>
+                        </div>
+                    </div>
+                    <div class="product-item series-laptop" onclick="openProductModal('电脑包')">
+                        <div class="product-preview">
+                            <img src="product_pics/电脑包/电脑包1.jpg" alt="电脑包预览" class="preview-image">
+                            <div class="preview-overlay">
+                                <div class="product-icon">
+                                    <i class="fas fa-laptop"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="product-title">电脑包</h3>
+                        <p class="product-desc">专业电脑保护，商务出行必备</p>
+                        <div class="product-features">
+                            <span class="feature-tag">防震保护</span>
+                            <span class="feature-tag">防水面料</span>
+                            <span class="feature-tag">商务风格</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 公司活动展示区域 -->
+        <section id="company-event" class="company-event section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">公司活动</h2>
+                    <p class="section-subtitle">共同成长，共创辉煌</p>
+                </div>
+                <div class="event-content">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="product_pics/01公司活动/2025年团年饭&20周年庆/阳江市益高箱包有限公司巳巳如意.png" alt="2025年团年饭&20周年庆邀请函">
+                        </div>
+                        <div class="event-details">
+                            <h3 class="event-title">2025年团年饭 & 20周年庆典</h3>
+                            <p class="event-subtitle">巳巳如意 · 共创未来</p>
+                            <p class="event-description">
+                                在这个特殊的年份，我们迎来了公司成立20周年的重要里程碑。
+                                回首过往，我们从2004年的利诚皮革到2008年的益高箱包，一路走来见证了无数的成长与蜕变。
+                                20年来，我们始终坚持品质第一的理念，不断创新，为客户提供更优质的产品和服务。
+                            </p>
+                            <div class="event-highlights">
+                                <div class="highlight-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>成立20周年</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>团队共庆</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <i class="fas fa-rocket"></i>
+                                    <span>展望未来</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <i class="fas fa-heart"></i>
+                                    <span>感恩同行</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>品质传承</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <i class="fas fa-trophy"></i>
+                                    <span>荣耀时刻</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- 手稿图特色展示区域 -->
+        <section class="design-showcase section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">设计匠心</h2>
+                    <p class="section-subtitle">每一个产品都源于精心的设计手稿</p>
+                </div>
+                <div style="text-align: center;">
+                    <img src="product_pics/03产品手稿图（特色展出区域）/手稿图.png" alt="产品设计手稿" class="design-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系我们 -->
+        <section id="contact" class="contact section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">联系我们</h2>
+                    <p class="section-subtitle">期待与您合作共赢</p>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>公司名称</h4>
+                                <p>阳江市益高箱包有限公司</p>
+                                <p>Topvim</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>公司地址</h4>
+                                <p>阳江市江城区赤岗一街六号</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>联系电话</h4>
+                                <p>13924396639</p>
+                                <p>0662-3379333</p>
+                                <p>0662-3379338</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>邮箱地址</h4>
+                                <p>ken9939@126.com</p>
+                                <p>lcyj@21cn.net</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wechat-qr">
+                        <h4><i class="fab fa-weixin" style="color: #07c160; margin-right: 10px;"></i>微信联系</h4>
+                        <img src="product_pics/04微信二维码/QR_Code.png" alt="微信二维码" style="width: 220px; height: 220px; border-radius: 15px; margin-bottom: 20px;">
+                        <p style="color: #666; font-size: 0.9rem;">扫码添加微信<br>获取更多产品信息</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <h3 class="footer-title">Topvim</h3>
+                <p class="footer-subtitle">阳江市益高箱包有限公司</p>
+                <p class="footer-copyright">&copy; 2025 阳江市益高箱包有限公司. 保留所有权利.</p>
+            </div>
+        </footer>
+    </div>
 
     <!-- 产品详情模态框 -->
     <div id="productModal" class="modal">
@@ -2909,18 +3184,33 @@
         function toggleMobileMenu() {
             const mobileToggle = document.querySelector('.mobile-menu-toggle');
             const navMenu = document.querySelector('.nav-menu');
+            const navOverlay = document.getElementById('navOverlay');
+            const pageWrapper = document.getElementById('page-wrapper');
             
             mobileToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+
+            if (navMenu.classList.contains('active')) {
+                const menuWidth = navMenu.offsetWidth;
+                pageWrapper.style.transform = `translateX(${menuWidth}px)`;
+            } else {
+                pageWrapper.style.transform = 'translateX(0px)';
+            }
         }
 
-        // 点击菜单项后关闭移动端菜单
+        // 点击菜单项或遮罩层后关闭移动端菜单
         function closeMobileMenu() {
             const mobileToggle = document.querySelector('.mobile-menu-toggle');
             const navMenu = document.querySelector('.nav-menu');
+            const navOverlay = document.getElementById('navOverlay');
+            const pageWrapper = document.getElementById('page-wrapper');
             
             mobileToggle.classList.remove('active');
             navMenu.classList.remove('active');
+            navOverlay.classList.remove('active');
+
+            pageWrapper.style.transform = 'translateX(0px)';
         }
 
         // 产品详情模态框
@@ -3185,6 +3475,19 @@
                 closeProductModal();
             }
         });
+
+        // 页面加载和窗口大小调整时，调整主体内容的上边距
+        function handleNavHeight() {
+            const navbar = document.querySelector('.navbar');
+            const pageWrapper = document.getElementById('page-wrapper');
+            if (navbar && pageWrapper) {
+                const navbarHeight = navbar.offsetHeight;
+                pageWrapper.style.paddingTop = `${navbarHeight}px`;
+            }
+        }
+
+        window.addEventListener('resize', handleNavHeight);
+        document.addEventListener('DOMContentLoaded', handleNavHeight);
     </script>
 </body>
 </html> 
