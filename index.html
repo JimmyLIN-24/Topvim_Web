@@ -1635,19 +1635,20 @@
 
         .product-gallery {
             display: flex;
-            height: 75vh; /* 随视口变化，占用更多区域 */
-            gap: 10px;
+            height: 85vh; /* 增加整体高度 */
+            gap: 15px;
         }
 
         .gallery-sidebar {
-            width: 28%;          /* 百分比宽度更适配 */
-            min-width: 260px;
+            width: 30%;          /* 略微增加宽度 */
+            min-width: 280px;
             background: #f8fafc;
             border-radius: 15px;
-            padding: 20px;
+            padding: 25px;
             overflow-y: auto;
             border: 1px solid #e2e8f0;
             flex-shrink: 2;
+            max-height: 85vh;    /* 确保和父容器同高 */
         }
 
         .gallery-sidebar h3 {
@@ -1675,7 +1676,7 @@
         .gallery-item {
             display: flex;
             flex-direction: column;
-            padding: 18px;
+            padding: 20px;
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -1683,6 +1684,7 @@
             border: 2px solid transparent;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             align-items: center;
+            margin-bottom: 5px;
         }
 
         .gallery-item:hover {
@@ -1702,11 +1704,13 @@
 
         .gallery-item img {
             width: 100%;
-            aspect-ratio: 1/1;   /* 保持正方形比例 */
+            aspect-ratio: 4/3;   /* 更适合展示产品的比例 */
             height: auto;
-            object-fit: cover;
+            object-fit: contain; /* 确保图片完整显示 */
             border-radius: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            background: #f8fafc; /* 图片背景色 */
+            padding: 5px;       /* 图片内边距 */
         }
 
         @supports not (aspect-ratio: 1/1) {
@@ -2776,6 +2780,16 @@
                 right: -100px;
                 top: -20px;
                 z-index: 4;
+            }
+        }
+
+        /* Desktop 优化：产品模态框左侧缩略图 */
+        @media (min-width: 1024px) {
+            .sidebar-content {
+                grid-template-columns: repeat(2, 1fr); /* 每行至少两件商品 */
+            }
+            .gallery-item img {
+                object-fit: contain; /* 确保图片完整显示 */
             }
         }
     </style>
