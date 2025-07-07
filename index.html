@@ -24,6 +24,10 @@
             overflow-x: hidden; /* 防止移动端横向滚动条 */
         }
 
+        html, body {
+            overflow-x: hidden;
+        }
+
         /* 导航栏样式增强 - 顶部蓝色，滚动时毛玻璃风格 */
         .navbar {
             position: fixed;
@@ -32,7 +36,7 @@
             background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%);
             z-index: 1000;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, transform 0.3s ease;
         }
 
         .navbar.scrolled {
@@ -2425,18 +2429,18 @@
             /* 侧边抽屉导航 */
             .nav-menu {
                 position: fixed;
-                top: 0;
+                top: 63px; /* 上移1px以消除缝隙 */
                 left: 0; /* 保持左侧 */
                 width: max-content; /* 依据内容自适应 */
                 min-width: 80px;    /* 最小宽度保证按钮完整 */
                 max-width: 75vw;     /* 防止过宽 */
-                height: 100vh;
+                height: calc(100vh - 63px); /* 相应调整高度 */  
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: flex-start;
-                padding: 90px 16px 40px;
+                padding: 20px 16px 40px; /* 调整内边距 */
                 gap: 18px;
-                background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+                background: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%); /* 与导航栏背景统一 */
                 transform: translateX(-110%);
                 transition: transform 0.3s ease;
                 overflow-y: auto;
@@ -2508,13 +2512,6 @@
                 <h2>Topvim</h2>
                 <span>益高箱包</span>
             </div>
-            <ul class="nav-menu">
-                <li><a onclick="scrollToSection('home'); closeMobileMenu()">首页</a></li>
-                <li><a onclick="scrollToSection('about'); closeMobileMenu()">关于我们</a></li>
-                <li><a onclick="scrollToSection('products'); closeMobileMenu()">产品展示</a></li>
-                <li><a onclick="scrollToSection('company-event'); closeMobileMenu()">公司活动</a></li>
-                <li><a onclick="scrollToSection('contact'); closeMobileMenu()">联系我们</a></li>
-            </ul>
             <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                 <span></span>
                 <span></span>
@@ -2522,6 +2519,13 @@
             </div>
         </div>
     </nav>
+    <ul class="nav-menu">
+        <li><a onclick="scrollToSection('home'); closeMobileMenu()">首页</a></li>
+        <li><a onclick="scrollToSection('about'); closeMobileMenu()">关于我们</a></li>
+        <li><a onclick="scrollToSection('products'); closeMobileMenu()">产品展示</a></li>
+        <li><a onclick="scrollToSection('company-event'); closeMobileMenu()">公司活动</a></li>
+        <li><a onclick="scrollToSection('contact'); closeMobileMenu()">联系我们</a></li>
+    </ul>
     <div id="navOverlay" class="nav-overlay" onclick="closeMobileMenu()"></div>
 
     <div id="page-wrapper">
